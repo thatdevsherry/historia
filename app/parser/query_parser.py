@@ -1,5 +1,5 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-from app.constants import temporal_keywords, temporal_predicates
+from app.constants import temporal_keywords_list, temporal_predicates_list
 from app.parser.syntax_constraints_check import SyntaxConstraintsCheck
 
 
@@ -15,8 +15,7 @@ class QueryParser:
     def get_temporal_keywords(self):
         for word in temporal_keywords:
             if word in self.query:
-                return SyntaxConstraintsCheck(
-                    self.query[self.query.index(word):]).temporal_keywords
+                return SyntaxConstraintsCheck(self.query).temporal_keywords
 
     def has_temporal_keywords(self):
         for word in temporal_keywords:
@@ -26,7 +25,7 @@ class QueryParser:
                 return False
 
     def has_temporal_predicate(self):
-        for word in temporal_predicates:
+        for word in temporal_predicates_list:
             if word in self.query:
                 return True
             else:
