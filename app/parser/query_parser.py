@@ -18,7 +18,7 @@ class QueryParser:
                 return SyntaxConstraintsCheck(self.query).temporal_keywords
 
     def has_temporal_keywords(self):
-        for word in temporal_keywords:
+        for word in temporal_keywords_list:
             if word in self.query:
                 return True
             else:
