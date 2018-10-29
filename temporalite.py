@@ -1,5 +1,5 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-from app.parser.QueryParser import QueryParser
+from app.parser.query_parser import QueryParser
 
 
 def main_execution(args):
