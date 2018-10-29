@@ -8,12 +8,12 @@ class QueryParser:
         self.query = tuple(str.lower(query).split(" "))
 
     def get_basic_keywords(self):
-        for word in temporal_keywords:
+        for word in temporal_keywords_list:
             if word in self.query:
                 return self.query[:self.query.index(word)]
 
     def get_temporal_keywords(self):
-        for word in temporal_keywords:
+        for word in temporal_keywords_list:
             if word in self.query:
                 return SyntaxConstraintsCheck(self.query).temporal_keywords
 
