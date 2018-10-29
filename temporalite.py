@@ -6,7 +6,7 @@ def main_execution(args):
     parsed_query = QueryParser(args)
     basic_keywords = parsed_query.get_basic_keywords()
     temporal_keywords = parsed_query.get_temporal_keywords()
-    return parsed_query
+    return parsed_query  # for testing purposes
 
 
 if "__name__" == "__main__":
