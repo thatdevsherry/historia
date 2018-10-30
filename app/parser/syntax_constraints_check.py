@@ -17,6 +17,7 @@ class SyntaxConstraintsCheck:
         self.check_time_period_adjacent_to_temporal_predicate(
             temporal_keywords)
         self.check_temporal_predicate(temporal_keywords)
+        self.get_temporal_keywords(temporal_keywords)
 
     def check_keywords(self, temporal_keywords):
         for word in temporal_keywords_list:
@@ -30,3 +31,9 @@ class SyntaxConstraintsCheck:
 
     def check_temporal_predicate(self, temporal_keywords):
         pass
+
+    def get_temporal_keywords(self, temporal_keywords):
+        for word in temporal_keywords_list:
+            if word in temporal_keywords:
+                self.temporal_keywords = temporal_keywords[temporal_keywords.
+                                                           index(word):]
