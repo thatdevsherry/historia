@@ -1,5 +1,6 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-from app.constants import temporal_keywords_list, temporal_predicates_list
+from app.constants import (sql_keywords_list, temporal_keywords_list,
+                           temporal_predicates_list)
 from app.parser.syntax_constraints_check import SyntaxConstraintsCheck
 
 
@@ -7,15 +8,18 @@ class QueryParser:
     def __init__(self, query):
         self.query = tuple(str.lower(query).split(" "))
 
-    def get_basic_keywords(self):
+    def get_sql_keywords(self):
         for word in temporal_keywords_list:
             if word in self.query:
                 return self.query[:self.query.index(word)]
+        for word in sql_keywords_list:
+            if word in self.query:
+                return self.query[self.query.index(word):]
 
     def get_temporal_keywords(self):
         for word in temporal_keywords_list:
             if word in self.query:
-                return SyntaxConstraintsCheck(self.query).query_tuple
+                return SyntaxConstraintsCheck(self.query).query
 
     def has_temporal_keywords(self):
         for word in temporal_keywords_list:
