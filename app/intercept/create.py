@@ -1,7 +1,7 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
 
 
-class CreateTableQuery:
+class CreateQueryBuilder:
     def __init__(self,
                  query,
                  temporal_query=None,
@@ -30,8 +30,8 @@ class CreateTableQuery:
         self.temporal_table_name = table_name + "_temporal"
 
     def set_table_names(self):
-        CreateTableQuery.set_original_table_name(self)
-        CreateTableQuery.set_temporal_table_name(self)
+        CreateQueryBuilder.set_original_table_name(self)
+        CreateQueryBuilder.set_temporal_table_name(self)
 
     def build_temporal_query(self):
         original_query = self.query.query
