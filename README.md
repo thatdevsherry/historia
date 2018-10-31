@@ -10,11 +10,19 @@ Able to create tables.
 
 ```
 import temporalite
-connection = temporalite.connect(FILE_NAME)
+connection = temporalite.connect('abcd')
 connection.execute("CREATE TABLE boopboop (id INT PRIMARY KEY NOT NULL, name TEXT NOT NULL)")
 ```
 
-Database file gets created with these two tables.
+Database file gets created with two tables, `boopboop` and `boopboop_temporal`
+
+```
+sqlite> .table
+boopboop           boopboop_temporal
+sqlite> .schema
+CREATE TABLE boopboop (id int primary key not null, name text not null);
+CREATE TABLE boopboop_temporal (id int primary key not null, name text not null, valid_from date, valid_to date);
+```
 
 
 ### Insert Query
