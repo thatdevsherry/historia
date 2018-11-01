@@ -61,10 +61,23 @@ sqlite> select * from test_temporal;
 sqlite>
 ```
 
+### Delete Query
+
+```
+>>> connection.execute("DELETE FROM test WHERE id=1")
+>>> connection.commit()
+```
+
+Database:
+
+```
+sqlite> select * from test;
+sqlite> select * from test_temporal;
+1|sherry|1-11-2018|1-11-2018
+1|it_changed|1-11-2018|1-11-2018
+```
+
 ### Select Query
 
 #####  Nopie nope
 
-### Delete Query
-
-#####  Nopie nope
