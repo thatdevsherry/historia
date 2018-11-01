@@ -1,8 +1,12 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
+from pudb import set_trace
+
 from app.intercept.create import CreateQueryBuilder
+from app.intercept.delete import DeleteQueryBuilder
 from app.intercept.insert import InsertQueryBuilder
 from app.intercept.update import UpdateQueryBuilder
 from app.sqlite3.query_execution.create import CreateQuery
+from app.sqlite3.query_execution.delete import DeleteQuery
 from app.sqlite3.query_execution.insert import InsertQuery
 from app.sqlite3.query_execution.update import UpdateQuery
 
@@ -20,3 +24,8 @@ class QueryHandler:
         elif parsed_query.query[0] == "update":
             query_info = UpdateQueryBuilder(parsed_query, connection)
             UpdateQuery.execute(connection, query_info)
+
+        elif parsed_query.query[0] == "delete":
+            query_info = DeleteQueryBuilder(parsed_query)
+            set_trace()
+            DeleteQuery.execute(connection, query_info)
