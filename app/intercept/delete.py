@@ -1,8 +1,6 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
 import time
 
-from pudb import set_trace
-
 
 class DeleteQueryBuilder:
     def __init__(self,
@@ -25,7 +23,6 @@ class DeleteQueryBuilder:
         DeleteQueryBuilder.set_temporal_table_name(self)
 
     def set_original_table_name(self):
-        set_trace()
         original_query = self.query.query
 
         for word in original_query:
@@ -51,7 +48,6 @@ class DeleteQueryBuilder:
             else:
                 pass
 
-        set_trace()
         reference_keywords = original_query[where_keyword_index + 1]
 
         # get current time
