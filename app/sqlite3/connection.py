@@ -17,3 +17,9 @@ class Connection:
     def execute(self, args):
         parsed_query = QueryParser(args)
         return QueryHandler.action_handler(self.connection, parsed_query)
+
+    def commit(self):
+        self.connection.commit()
+
+    def close(self):
+        self.connection.close()
