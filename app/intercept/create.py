@@ -64,6 +64,16 @@ class CreateQueryBuilder:
         temporal_table = table_name + "_temporal"
         query_to_list[table_name_index] = temporal_table
 
+        for word in query_to_list:
+            if word == "primary":
+                primary_keyword_index = query_to_list.index(word)
+            else:
+                pass
+
+        query_to_list.pop(primary_keyword_index)
+        # another time as keyword "key" should now be moved 1 index back
+        query_to_list.pop(primary_keyword_index)
+
         new_query = ' '.join(query_to_list)
 
         self.temporal_query = new_query
