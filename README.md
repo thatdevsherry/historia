@@ -21,7 +21,7 @@ sqlite> .table
 boopboop           boopboop_temporal
 sqlite> .schema
 CREATE TABLE boopboop (id int primary key not null);
-CREATE TABLE boopboop_temporal (id int, valid_from date, valid_to date);
+CREATE TABLE boopboop_temporal (id int not null, valid_from date, valid_to date);
 ```
 
 ### Insert Query
