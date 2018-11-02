@@ -33,7 +33,7 @@ class InsertQueryBuilder:
         table_name = original_query[into_keyword_index + 1]
         table_name_index = original_query.index(table_name)
 
-        temporal_table = table_name + "_temporal"
+        temporal_table = table_name + "_history"
         query_list = list(original_query)
         query_list.pop(table_name_index)
         query_list.insert(table_name_index, temporal_table)

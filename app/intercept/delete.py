@@ -36,7 +36,7 @@ class DeleteQueryBuilder:
         self.table_name = table_name
 
     def set_temporal_table_name(self):
-        self.temporal_table_name = self.table_name + "_temporal"
+        self.temporal_table_name = self.table_name + "_history"
 
     def build_temporal_query(self):
         original_query = self.query.query

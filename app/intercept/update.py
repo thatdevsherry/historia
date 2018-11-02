@@ -39,7 +39,7 @@ class UpdateQueryBuilder:
 
     def set_temporal_table_name(self):
         table_name = self.table_name
-        self.temporal_table_name = table_name + "_temporal"
+        self.temporal_table_name = table_name + "_history"
 
     def set_table_names(self):
         UpdateQueryBuilder.set_original_table_name(self)

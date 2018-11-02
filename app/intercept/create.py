@@ -27,7 +27,7 @@ class CreateQueryBuilder:
 
     def set_temporal_table_name(self):
         table_name = self.table_name
-        self.temporal_table_name = table_name + "_temporal"
+        self.temporal_table_name = table_name + "_history"
 
     def set_table_names(self):
         CreateQueryBuilder.set_original_table_name(self)
@@ -61,7 +61,7 @@ class CreateQueryBuilder:
 
         table_name_index = index_of_word + 1
         table_name = query_to_list[table_name_index]
-        temporal_table = table_name + "_temporal"
+        temporal_table = table_name + "_history"
         query_to_list[table_name_index] = temporal_table
 
         for word in query_to_list:
