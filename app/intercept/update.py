@@ -123,7 +123,7 @@ class UpdateQueryBuilder:
         query_result_list.pop(old_value_index)
         query_result_list.insert(old_value_index, new_value)
         query_result_list.append(date_string)
-        query_result_list.append('')
+        query_result_list.append('9999-12-31')
         new_tuple = tuple(query_result_list)
 
         insert_query = "insert into {} values {}".format(

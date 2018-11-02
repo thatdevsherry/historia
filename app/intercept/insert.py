@@ -54,8 +54,8 @@ class InsertQueryBuilder:
 
         time_string = "{}-{}-{}".format(year, month, day)
 
-        string_with_values = "{}, '{}', NULL)".format(stripped_word,
-                                                      time_string)
+        string_with_values = "{}, '{}', '9999-12-31')".format(
+            stripped_word, time_string)
 
         stripped_query.append(string_with_values)
 
