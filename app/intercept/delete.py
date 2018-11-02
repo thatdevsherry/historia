@@ -55,7 +55,7 @@ class DeleteQueryBuilder:
         month = time.localtime()[1]
         year = time.localtime()[0]
 
-        time_string = "{}-{}-{}".format(day, month, year)
+        time_string = "{}-{}-{}".format(year, month, day)
 
         temporal_query = "update {} set valid_to='{}' where {}".format(
             self.temporal_table_name, time_string, reference_keywords)

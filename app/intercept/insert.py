@@ -52,7 +52,7 @@ class InsertQueryBuilder:
         month = time.localtime()[1]
         year = time.localtime()[0]
 
-        time_string = "{}-{}-{}".format(day, month, year)
+        time_string = "{}-{}-{}".format(year, month, day)
 
         string_with_values = "{}, '{}', NULL)".format(stripped_word,
                                                       time_string)

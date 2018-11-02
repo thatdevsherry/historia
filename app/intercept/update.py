@@ -76,7 +76,7 @@ class UpdateQueryBuilder:
         month = time.localtime()[1]
         year = time.localtime()[0]
 
-        date_string = "{}-{}-{}".format(day, month, year)
+        date_string = "{}-{}-{}".format(year, month, day)
 
         temporal_query = "update {} set valid_to='{}' where {}={}".format(
             self.temporal_table_name, date_string, column_name, column_value)
@@ -116,7 +116,7 @@ class UpdateQueryBuilder:
         month = time.localtime()[1]
         year = time.localtime()[0]
 
-        date_string = "{}-{}-{}".format(day, month, year)
+        date_string = "{}-{}-{}".format(year, month, day)
 
         query_result_list = list(query_result)
         old_value_index = query_result_list.index(previous_value)
