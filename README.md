@@ -36,8 +36,8 @@ New rows get created in temporal table on every new row added in normal table.
 ```
 sqlite> select * from test;
 1|sherry
-sqlite> select * from test_temporal;
-1|sherry|1-11-2018|
+sqlite> select * from test_history;
+1|sherry|2018-11-02T23:21:36.245275|9999-12-31T00:00:00.000000
 ```
 
 ### Update Query
@@ -54,11 +54,10 @@ Works but has limitations:
 
 ```
 sqlite> select * from test;
-1|it_changed
-sqlite> select * from test_temporal;
-1|sherry|1-11-2018|1-11-2018
-1|it_changed|1-11-2018|
-sqlite>
+1|something
+sqlite> select * from test_history;
+1|sherry|2018-11-02T23:21:36.245275|2018-11-02T23:22:36.631443
+1|something|2018-11-02T23:22:36.632108|9999-12-31T00:00:00.000000
 ```
 
 ### Delete Query
@@ -72,12 +71,12 @@ Database:
 
 ```
 sqlite> select * from test;
-sqlite> select * from test_temporal;
-1|sherry|1-11-2018|1-11-2018
-1|it_changed|1-11-2018|1-11-2018
+sqlite> select * from test_history;
+1|sherry|2018-11-02T23:21:36.245275|2018-11-02T23:23:22.888240
+1|something|2018-11-02T23:22:36.632108|2018-11-02T23:23:22.888240
 ```
 
 ### Select Query
 
-#####  Nopie nope
+##### Not Implemented Yet
 
