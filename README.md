@@ -14,11 +14,11 @@ Able to create tables.
 >>> connection.execute("CREATE TABLE test (id INT PRIMARY KEY NOT NULL, name TEXT)")
 ```
 
-Database file gets created with two tables, `test` and `test_temporal`
+Database file gets created with two tables, `test` and `test_history`
 
 ```
 sqlite> .table
-test           test_temporal
+test           test_history
 sqlite> .schema
 CREATE TABLE test (id int primary key not null, name text);
 CREATE TABLE test_temporal (id int not null, name text, valid_from date, valid_to date);
