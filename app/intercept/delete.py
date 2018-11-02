@@ -1,5 +1,5 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-import time
+import datetime
 
 
 class DeleteQueryBuilder:
@@ -50,12 +50,7 @@ class DeleteQueryBuilder:
 
         reference_keywords = original_query[where_keyword_index + 1]
 
-        # get current time
-        day = time.localtime()[2]
-        month = time.localtime()[1]
-        year = time.localtime()[0]
-
-        time_string = "{}-{}-{}".format(year, month, day)
+        time_string = datetime.datetime.now().isoformat()
 
         temporal_query = "update {} set valid_to='{}' where {}".format(
             self.temporal_table_name, time_string, reference_keywords)

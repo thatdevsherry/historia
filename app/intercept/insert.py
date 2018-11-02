@@ -1,5 +1,5 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-import time
+import datetime
 
 
 class InsertQueryBuilder:
@@ -47,14 +47,9 @@ class InsertQueryBuilder:
         bracket_index = closing_bracket_word.index(')')
         stripped_word = closing_bracket_word[:bracket_index]
 
-        # get current time
-        day = time.localtime()[2]
-        month = time.localtime()[1]
-        year = time.localtime()[0]
+        time_string = datetime.datetime.now().isoformat()
 
-        time_string = "{}-{}-{}".format(year, month, day)
-
-        string_with_values = "{}, '{}', '9999-12-31')".format(
+        string_with_values = "{}, '{}', '9999-12-31T00:00:00.000000')".format(
             stripped_word, time_string)
 
         stripped_query.append(string_with_values)

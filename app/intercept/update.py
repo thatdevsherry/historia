@@ -1,6 +1,6 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-import time
 import sqlite3
+import datetime
 
 
 class UpdateQueryBuilder:
@@ -71,12 +71,7 @@ class UpdateQueryBuilder:
         column_value = split_word[1]
         self.reference_column_value = column_value
 
-        # get current date
-        day = time.localtime()[2]
-        month = time.localtime()[1]
-        year = time.localtime()[0]
-
-        date_string = "{}-{}-{}".format(year, month, day)
+        date_string = datetime.datetime.now().isoformat()
 
         temporal_query = "update {} set valid_to='{}' where {}={}".format(
             self.temporal_table_name, date_string, column_name, column_value)
@@ -111,19 +106,14 @@ class UpdateQueryBuilder:
 
         previous_value = get_name_query.fetchone()[0]
 
-        # get current date
-        day = time.localtime()[2]
-        month = time.localtime()[1]
-        year = time.localtime()[0]
-
-        date_string = "{}-{}-{}".format(year, month, day)
+        date_string = datetime.datetime.now().isoformat()
 
         query_result_list = list(query_result)
         old_value_index = query_result_list.index(previous_value)
         query_result_list.pop(old_value_index)
         query_result_list.insert(old_value_index, new_value)
         query_result_list.append(date_string)
-        query_result_list.append('9999-12-31')
+        query_result_list.append('9999-12-31T00:00:00.000000')
         new_tuple = tuple(query_result_list)
 
         insert_query = "insert into {} values {}".format(
