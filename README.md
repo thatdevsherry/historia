@@ -21,7 +21,7 @@ sqlite> .table
 test           test_history
 sqlite> .schema
 CREATE TABLE test (id int primary key not null, name text);
-CREATE TABLE test_temporal (id int not null, name text, valid_from date, valid_to date);
+CREATE TABLE test_history (id int not null, name text, valid_from date, valid_to date);
 ```
 
 ### Insert Query
