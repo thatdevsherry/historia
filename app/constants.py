@@ -5,3 +5,5 @@ temporal_keywords_list = ["during"]
 temporal_predicates_list = ["during", "after"]
 
 sql_keywords_list = ["create", "insert", "update", "delete", "select"]
+
+select_temporal_keywords = ["as of"]
