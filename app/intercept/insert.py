@@ -1,62 +1,62 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
+import re
 import datetime
 
 
 class InsertQueryBuilder:
-    def __init__(self,
-                 query,
-                 temporal_query=None,
-                 primary_key=None,
-                 column_name=None,
-                 row=None,
-                 old_value=None,
-                 new_value=None):
+    def __init__(self, query, temporal_query=None):
         self.query = query
         self.temporal_query = temporal_query
-        self.primary_key = primary_key
-        self.column_name = column_name
-        self.row = row
-        self.old_value = old_value
-        self.new_value = new_value
 
         self.build_temporal_query()
-        self.set_attributes()
 
     def build_temporal_query(self):
-        original_query = self.query.query
-        for word in original_query:
-            if word == "into":
-                into_keyword_index = original_query.index(word)
-            else:
-                pass
+        original_query = ' '.join(self.query.query)
 
-        table_name = original_query[into_keyword_index + 1]
-        table_name_index = original_query.index(table_name)
+        # get table name
+        table_name_pattern = re.compile(r'(?<=into )(.*)(?= values)')
+
+        matches = table_name_pattern.finditer(original_query)
+
+        for match in matches:
+            table_name_match = match
+
+        table_name_span = table_name_match.span()
+        table_name = table_name_match.group(0)
 
         temporal_table = table_name + "_history"
-        query_list = list(original_query)
-        query_list.pop(table_name_index)
-        query_list.insert(table_name_index, temporal_table)
 
-        for word in query_list:
-            if ')' in word:
-                closing_bracket_word_index = query_list.index(word)
-                closing_bracket_word = word
+        # get string before table name
+        before_table = original_query[:table_name_span[0]]
 
-        stripped_query = query_list[:closing_bracket_word_index]
-        bracket_index = closing_bracket_word.index(')')
-        stripped_word = closing_bracket_word[:bracket_index]
+        # get values b/w table and opening bracket '(' of values
+        keyword_values_pattern = re.compile(
+            r'(?<={})(.*)(?=\()'.format(table_name))
+
+        keyword_values_matches = keyword_values_pattern.finditer(
+            original_query)
+
+        for match in keyword_values_matches:
+            keyword_values_match = match
+
+        after_table_before_values = keyword_values_match.group(0)
+
+        # get values inside brackets
+        values_pattern = re.compile(r'\((.*)(?=\))')
+
+        values_matches = values_pattern.finditer(original_query)
+
+        for match in values_matches:
+            values_match = match
+
+        values = values_match.group(0)
 
         time_string = datetime.datetime.now().isoformat()
 
-        string_with_values = "{}, '{}', '9999-12-31T00:00:00.000000')".format(
-            stripped_word, time_string)
+        # this string will be cocatenated in the end position
+        # it adds the temporal time column values and closing bracket
+        add_values = "{}, '{}', '9999-12-31T:00:00:00.000000')".format(
+            values, time_string)
 
-        stripped_query.append(string_with_values)
-
-        new_query = ' '.join(stripped_query)
-
-        self.temporal_query = new_query
-
-    def set_attributes(self):
-        pass
+        self.temporal_query = before_table + temporal_table + \
+            after_table_before_values + add_values
