@@ -1,5 +1,8 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
+import re
 import datetime
+
+from pudb import set_trace
 
 
 class DeleteQueryBuilder:
@@ -23,36 +26,35 @@ class DeleteQueryBuilder:
         DeleteQueryBuilder.set_temporal_table_name(self)
 
     def set_original_table_name(self):
-        original_query = self.query.query
+        set_trace()
+        original_query = ' '.join(self.query.query)
 
-        for word in original_query:
-            if word == "from":
-                from_keyword_index = original_query.index(word)
-                break
-            else:
-                pass
+        table_name_pattern = re.compile(r'(?<=from ).\S+')
 
-        table_name = original_query[from_keyword_index + 1]
-        self.table_name = table_name
+        table_name_matches = table_name_pattern.finditer(original_query)
+
+        for match in table_name_matches:
+            table_name = match
+
+        self.table_name = table_name.group(0)
 
     def set_temporal_table_name(self):
         self.temporal_table_name = self.table_name + "_history"
 
     def build_temporal_query(self):
-        original_query = self.query.query
+        set_trace()
+        original_query = ' '.join(self.query.query)
 
-        for word in original_query:
-            if word == "where":
-                where_keyword_index = original_query.index(word)
-                break
-            else:
-                pass
+        where_value_pattern = re.compile(r'(?<=where )(.*)')
 
-        reference_keywords = original_query[where_keyword_index + 1]
+        where_value_matches = where_value_pattern.finditer(original_query)
+
+        for match in where_value_matches:
+            value_match = match
+
+        value = value_match.group(0)
 
         time_string = datetime.datetime.now().isoformat()
 
-        temporal_query = "update {} set valid_to='{}' where {}".format(
-            self.temporal_table_name, time_string, reference_keywords)
-
-        self.temporal_query = temporal_query
+        self.temporal_query = "update {} set valid_to='{}' where {}".format(
+            self.temporal_table_name, time_string, value)
