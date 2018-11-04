@@ -1,4 +1,5 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
+import re
 
 
 class CreateQueryBuilder:
@@ -12,68 +13,67 @@ class CreateQueryBuilder:
         self.table_name = table_name
         self.temporal_table_name = temporal_table_name
 
-        self.build_temporal_query()
         self.set_table_names()
+        self.build_temporal_query()
 
     def set_original_table_name(self):
-        original_query = self.query.query
-        for word in original_query:
-            if word == 'table':
-                index_of_table_keyword = original_query.index(word)
-            else:
-                pass
+        # convert query tuple to string
+        original_query = ' '.join(self.query.query)
+        get_table_pattern = re.compile(r'(?<=table )(.*)(?= \()')
 
-        self.table_name = original_query[index_of_table_keyword + 1]
+        matches = get_table_pattern.finditer(original_query)
+
+        for match in matches:
+            table_name_match = match
+
+        table_name_span = table_name_match.span()
+        self.table_name = original_query[table_name_span[0]:table_name_span[1]]
 
     def set_temporal_table_name(self):
-        table_name = self.table_name
-        self.temporal_table_name = table_name + "_history"
+        self.temporal_table_name = self.table_name + "_history"
 
     def set_table_names(self):
         CreateQueryBuilder.set_original_table_name(self)
         CreateQueryBuilder.set_temporal_table_name(self)
 
     def build_temporal_query(self):
-        original_query = self.query.query
-        for word in original_query:
-            if ')' in word:
-                closing_bracket_word_index = original_query.index(word)
-                closing_bracket_word = word
-            else:
-                pass
+        # convert query tuple to string
+        original_query = ' '.join(self.query.query)
+        get_columns_pattern = re.compile(r'\([^)]+\w')
 
-        stripped_query = original_query[:closing_bracket_word_index]
+        matches = get_columns_pattern.finditer(original_query)
 
-        # remove bracket and add columns
-        bracket_index = closing_bracket_word.index(')')
-        stripped_word = closing_bracket_word[:bracket_index]
-        string_with_columns = "{}, valid_from date, valid_to date)".format(
-            stripped_word)
+        for match in matches:
+            columns = match.group(0)
 
-        query_to_list = list(stripped_query)
-        query_to_list.append(string_with_columns)
+        new_columns_string = columns + ", valid_from date, valid_to date)"
 
-        for word in query_to_list:
-            if word == "table":
-                index_of_word = query_to_list.index(word)
-            else:
-                pass
+        get_table_pattern = re.compile(r'(?<=table )(.*)(?= \()')
 
-        table_name_index = index_of_word + 1
-        table_name = query_to_list[table_name_index]
-        temporal_table = table_name + "_history"
-        query_to_list[table_name_index] = temporal_table
+        another_match = get_table_pattern.finditer(original_query)
 
-        for word in query_to_list:
-            if word == "primary":
-                primary_keyword_index = query_to_list.index(word)
-            else:
-                pass
+        for match in another_match:
+            table_names = match
 
-        query_to_list.pop(primary_keyword_index)
-        # another time as keyword "key" should now be moved 1 index back
-        query_to_list.pop(primary_keyword_index)
+        table_name_span = table_names.span()
+        table_part = original_query[:table_name_span[0]]
 
-        new_query = ' '.join(query_to_list)
+        primary_key_pattern = re.compile(r' primary key')
 
-        self.temporal_query = new_query
+        primary_keys = primary_key_pattern.finditer(new_columns_string)
+
+        key_span = None
+
+        for match in primary_keys:
+            key_span = match.span()
+
+        if key_span is not None:
+
+            before_key = new_columns_string[:key_span[0]]
+            after_key = new_columns_string[key_span[1]:]
+            self.temporal_query = table_part + \
+                self.temporal_table_name + " " + before_key + after_key
+
+        else:
+            self.temporal_query = table_part + \
+                self.temporal_table_name + " " + new_columns_string
