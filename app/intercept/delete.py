@@ -2,8 +2,6 @@
 import re
 import datetime
 
-from pudb import set_trace
-
 
 class DeleteQueryBuilder:
     def __init__(self,
@@ -26,7 +24,6 @@ class DeleteQueryBuilder:
         DeleteQueryBuilder.set_temporal_table_name(self)
 
     def set_original_table_name(self):
-        set_trace()
         original_query = ' '.join(self.query.query)
 
         table_name_pattern = re.compile(r'(?<=from ).\S+')
@@ -42,7 +39,6 @@ class DeleteQueryBuilder:
         self.temporal_table_name = self.table_name + "_history"
 
     def build_temporal_query(self):
-        set_trace()
         original_query = ' '.join(self.query.query)
 
         where_value_pattern = re.compile(r'(?<=where )(.*)')
@@ -56,5 +52,5 @@ class DeleteQueryBuilder:
 
         time_string = datetime.datetime.now().isoformat()
 
-        self.temporal_query = "update {} set valid_to='{}' where {}".format(
+        self.temporal_query = "update {} set valid_to='{}' where {} and valid_to='9999-12-31T00:00:00.000000'".format(
             self.temporal_table_name, time_string, value)
