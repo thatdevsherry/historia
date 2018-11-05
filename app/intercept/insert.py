@@ -55,7 +55,7 @@ class InsertQueryBuilder:
 
         # this string will be cocatenated in the end position
         # it adds the temporal time column values and closing bracket
-        add_values = "{}, '{}', '9999-12-31T:00:00:00.000000')".format(
+        add_values = "{}, '{}', '9999-12-31T00:00:00.000000')".format(
             values, time_string)
 
         self.temporal_query = before_table + temporal_table + \
