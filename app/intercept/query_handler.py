@@ -2,12 +2,14 @@
 from app.intercept.create import CreateQueryBuilder
 from app.intercept.delete import DeleteQueryBuilder
 from app.intercept.insert import InsertQueryBuilder
+from app.intercept.select import TemporalSelectQueryBuilder
 from app.intercept.update import UpdateQueryBuilder
 from app.intercept.select_handler import SelectQueryHandler
 from app.sqlite3.query_execution.create import CreateQuery
 from app.sqlite3.query_execution.delete import DeleteQuery
 from app.sqlite3.query_execution.insert import InsertQuery
-from app.sqlite3.query_execution.select import NormalSelectQuery
+from app.sqlite3.query_execution.select import (NormalSelectQuery,
+                                                TemporalSelectQuery)
 from app.sqlite3.query_execution.update import UpdateQuery
 
 
@@ -32,7 +34,8 @@ class QueryHandler:
         elif parsed_query.query[0] == "select":
             if SelectQueryHandler.is_temporal_query(
                     parsed_query.query) is True:
-                pass
+                query_info = TemporalSelectQueryBuilder(parsed_query)
+                return TemporalSelectQuery.execute(connection, query_info)
 
             else:
                 return NormalSelectQuery.execute(connection,
