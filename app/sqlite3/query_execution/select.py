@@ -7,4 +7,5 @@ class NormalSelectQuery:
 
 
 class TemporalSelectQuery:
-    pass
+    def execute(connection, query_info):
+        return connection.execute(query_info.temporal_query)
