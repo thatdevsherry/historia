@@ -1,12 +1,9 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
 import re
 
-from pudb import set_trace
-
 
 class SelectQueryHandler:
     def is_temporal_query(parsed_query):
-        set_trace()
         original_query = ' '.join(parsed_query)
 
         # will add more clauses as they're implemented
