@@ -78,5 +78,10 @@ sqlite> select * from test_history;
 
 ### Select Query
 
-##### Not Implemented Yet
+Works with AS OF for now.
 
+example
+
+```
+select * from test as of '2018-11-05T15:00:00.000000'
+```
