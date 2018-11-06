@@ -7,7 +7,7 @@ class SelectQueryHandler:
         original_query = ' '.join(parsed_query)
 
         # will add more clauses as they're implemented
-        temporal_clause_pattern = re.compile(r'(as of|to)')
+        temporal_clause_pattern = re.compile(r'(as of|to|between)')
 
         temporal_clause_matches = temporal_clause_pattern.finditer(
             original_query)
