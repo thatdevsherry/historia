@@ -58,7 +58,7 @@ class TemporalSelectQueryBuilder:
         original_query = ' '.join(self.query.query)
 
         # get clause
-        clause_pattern = re.compile(r'(as of|to|between)')
+        clause_pattern = re.compile(r'(as of|to|between|contained in)')
 
         clause_matches = clause_pattern.finditer(original_query)
 
@@ -76,6 +76,9 @@ class TemporalSelectQueryBuilder:
 
         elif self.temporal_clause == "between":
             TemporalSelectQueryBuilder.between_and_query_builder(self)
+
+        elif self.temporal_clause == "contained in":
+            TemporalSelectQueryBuilder.contained_in_query_builder(self)
 
         else:
             raise Exception("wut????")
@@ -154,3 +157,28 @@ class TemporalSelectQueryBuilder:
         self.temporal_query = "select {} from {} where valid_from <= {} and valid_to > {}".format(
             self.selected_column, self.temporal_table_name, end_time,
             start_time)
+
+    def contained_in_query_builder(self):
+        original_query = ' '.join(self.query.query)
+
+        start_time_pattern = re.compile(r'(?<=\()(.*)(?=,)')
+
+        start_time_matches = start_time_pattern.finditer(original_query)
+
+        for match in start_time_matches:
+            start_time_match = match
+
+        start_time = str.upper(start_time_match.group(0))
+
+        end_time_pattern = re.compile(r'(?<=,)(.*)[^\)]+')
+
+        end_time_matches = end_time_pattern.finditer(original_query)
+
+        for match in end_time_matches:
+            end_time_match = match
+
+        end_time = str.upper(end_time_match.group(0).strip(' '))
+
+        self.temporal_query = "select {} from {} where valid_from >= {} and valid_to <= {}".format(
+            self.selected_column, self.temporal_table_name, start_time,
+            end_time)
