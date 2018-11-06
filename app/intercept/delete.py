@@ -8,9 +8,7 @@ class DeleteQueryBuilder:
                  query,
                  temporal_query=None,
                  table_name=None,
-                 temporal_table_name=None,
-                 reference_column_name=None,
-                 reference_columnd_value=None):
+                 temporal_table_name=None):
         self.query = query
         self.temporal_query = temporal_query
         self.table_name = table_name
@@ -41,16 +39,21 @@ class DeleteQueryBuilder:
     def build_temporal_query(self):
         original_query = ' '.join(self.query.query)
 
-        where_value_pattern = re.compile(r'(?<=where )(.*)')
-
-        where_value_matches = where_value_pattern.finditer(original_query)
-
-        for match in where_value_matches:
-            value_match = match
-
-        value = value_match.group(0)
+        condition = DeleteQueryBuilder.get_where_condition(original_query)
 
         time_string = datetime.datetime.now().isoformat()
 
         self.temporal_query = "update {} set valid_to='{}' where {} and valid_to='9999-12-31T00:00:00.000000'".format(
-            self.temporal_table_name, time_string, value)
+            self.temporal_table_name, time_string, condition)
+
+    def get_where_condition(original_query):
+        where_condition_pattern = re.compile(r'(?<=where )(.*)')
+
+        where_condition_matches = where_condition_pattern.finditer(
+            original_query)
+
+        for match in where_condition_matches:
+            condition_match = match
+
+        value = condition_match.group(0)
+        return value
