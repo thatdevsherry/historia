@@ -78,7 +78,13 @@ sqlite> select * from test_history;
 
 ### Select Query
 
-Working clauses:
+These queries work by following the conditions defined in https://docs.microsoft.com/en-us/sql/relational-databases/tables/temporal-tables?view=sql-server-2017#how-do-i-query-temporal-data
+
+###### NOTE: These only perform queries on history table for now.
+
+Will add support for returning **temporal_table UNION history_table** result when possible.
+
+Supported clauses:
 
 - **AS OF**
 
