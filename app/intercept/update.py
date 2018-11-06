@@ -86,7 +86,7 @@ class UpdateQueryBuilder:
             self, condition, update_column)
 
         self.temporal_query_insert = UpdateQueryBuilder.build_query(
-            self, query_result, previous_value, new_value)
+            self, query_result, previous_value, new_value, date_string)
 
     def get_new_values(original_query):
         set_value_pattern = re.compile(r'(?<=set )[^ ]+')
@@ -137,8 +137,8 @@ class UpdateQueryBuilder:
         previous_value = get_column_query.fetchone()[0]
         return previous_value
 
-    def build_query(self, query_result, previous_value, new_value):
-        date_string = datetime.datetime.now().isoformat()
+    def build_query(self, query_result, previous_value, new_value,
+                    date_string):
         query_result_list = list(query_result)
         old_value_index = query_result_list.index(previous_value)
         query_result_list.pop(old_value_index)
