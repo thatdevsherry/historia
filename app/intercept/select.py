@@ -112,7 +112,8 @@ class TemporalSelectQueryBuilder:
         original_query = ' '.join(self.query.query)
 
         start_time = TemporalSelectQueryBuilder.get_regex_match(
-            original_query, r'(?<={} from )(.*)(?= to)')
+            original_query,
+            r'(?<={} from )(.*)(?= to)'.format(self.temporal_table_name))
 
         end_time = TemporalSelectQueryBuilder.get_regex_match(
             original_query, r'(?<=to ).*')
