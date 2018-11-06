@@ -9,13 +9,16 @@ class TemporalSelectQueryBuilder:
                  temporal_clause=None,
                  table_name=None,
                  temporal_table_name=None):
+                 selected_column=None):
         self.query = query
         self.temporal_query = temporal_query
         self.temporal_clause = temporal_clause
         self.table_name = table_name
         self.temporal_table_name = temporal_table_name
+        self.selected_column = selected_column
 
         self.set_table_names()
+        self.set_selected_column()
         self.set_temporal_clause()
         self.build_temporal_query()
 
@@ -23,6 +26,17 @@ class TemporalSelectQueryBuilder:
         TemporalSelectQueryBuilder.set_original_table_name(self)
         TemporalSelectQueryBuilder.set_temporal_table_name(self)
 
+    def set_selected_column(self):
+        original_query = ' '.join(self.query.query)
+
+        selected_column_pattern = re.compile(r'(?<=select )[^ ]+')
+        selected_column_matches = selected_column_pattern.finditer(
+            original_query)
+
+        for match in selected_column_matches:
+            selected_column_match = match
+
+        self.selected_column = selected_column_match.group(0)
     def set_original_table_name(self):
         original_query = ' '.join(self.query.query)
 
