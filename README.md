@@ -1,6 +1,33 @@
-# temporalite (In Active Development)
-A Python module which aims to implement temporal databases by using python's built-in sqlite3 module.
+# temporalite
+A Python module which implements temporal tables using python's built-in sqlite3 module.
 
+
+## What is it?
+
+Consider you have a database of employees. One of em pretends to be a "Me Me Big Boy" but is actually a smol boi. You fire him. That's right. So you delete his record (row) from database. 1 year later you find out he was doing
+some shady stuff behind your back and police are after him. They come to you to get his information. So you query the database with his ID and... ummm... well this is embarrassing. You deleted the row so uh... it's gone... you look
+at the officer's face and he thinks you're one of those IT people that think they can do stuff but actually can't. The officer says "degrees are useless". You drown in disappointment.
+
+That's where history tables come in. They keep track of what happened in the database, what got changed and when it got changed. They can be useful for restoring data if database goes corrupt or be used for audit purposes. Support
+for temporal tables is in most databases. I just wanted a project to work on so I decided to implement (with my current knowledge) temporal tables using python's built-in sqlite3 module.
+
+
+## How it works (Simple Edition)
+
+The only part it does itself is the parsing and creation of temporal queries. The connection and execute functions just call the sqlite3 functions.
+
+### Table Creation
+
+You enter a query to create a table. The module looks at disgust on how bad you named the table and columns. It then creates another table (the history one) with two additional columns, **valid_from** and **valid_to**.
+
+### Manipulation
+
+When you enter queries for inserting/updating or deleting, it automatically parses your query and creates a temporal query from it and executes both of them using python's sqlite3 module.
+
+### Fetching
+
+When you enter a select statement, it looks if you used a temporal clause like AS OF. If you don't, it runs the normal query and gives you the result from temporal table (current/NOT THE HISTORY ONE). If you do enter a temporal
+clause, it parses it and uses really complicated equations e.g. a > b and b < c and returns the result from history_table.
 
 ## Status
 
@@ -80,7 +107,7 @@ sqlite> select * from test_history;
 
 These queries work by following the conditions defined in https://docs.microsoft.com/en-us/sql/relational-databases/tables/temporal-tables?view=sql-server-2017#how-do-i-query-temporal-data
 
-###### NOTE: These only perform queries on history table for now.
+#### NOTE: These only perform queries on history table for now.
 
 Will add support for returning **temporal_table UNION history_table** result when possible.
 
