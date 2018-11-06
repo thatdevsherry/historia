@@ -81,28 +81,29 @@ class TemporalSelectQueryBuilder:
             TemporalSelectQueryBuilder.contained_in_query_builder(self)
 
         else:
-            raise Exception("wut????")
+            raise Exception(
+                "You entered a wrong temporal keyword or maybe you didn't \
+                enter one. Either way, you weren't supposed to see this.")
 
-    def as_of_query_builder(self):
-        original_query = ' '.join(self.query.query)
+    def get_regex_match(query, regex):
+        entered_time_pattern = re.compile(regex)
 
-        entered_time_pattern = re.compile(r'(?<=as of )[^ ]+')
-
-        entered_time_matches = entered_time_pattern.finditer(original_query)
+        entered_time_matches = entered_time_pattern.finditer(query)
 
         for match in entered_time_matches:
             entered_time_match = match
 
         entered_time = str.upper(entered_time_match.group(0))
+        return entered_time
 
-        column_pattern = re.compile(r'(?<=select )[^ ]+')
+    def as_of_query_builder(self):
+        original_query = ' '.join(self.query.query)
 
-        column_matches = column_pattern.finditer(original_query)
+        entered_time = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=as of )[^ ]+')
 
-        for match in column_matches:
-            column_match = match
-
-        column = column_match.group(0)
+        column = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=select )[^ ]+')
 
         self.temporal_query = "select {} from {} where valid_from <= {} and valid_to > {}".format(
             column, self.temporal_table_name, entered_time, entered_time)
@@ -110,24 +111,12 @@ class TemporalSelectQueryBuilder:
     def from_to_query_builder(self):
         original_query = ' '.join(self.query.query)
 
-        from_time_pattern = re.compile(r'(?<={} from )(.*)(?= to)'.format(
-            self.table_name))
+        start_time = TemporalSelectQueryBuilder.get_regex_match(
+            original_query,
+            r'(?<={} from )(.*)(?= to)'.format(self.temporal_table_name))
 
-        from_time_matches = from_time_pattern.finditer(original_query)
-
-        for match in from_time_matches:
-            from_time_match = match
-
-        start_time = str.upper(from_time_match.group(0))
-
-        to_time_pattern = re.compile(r'(?<=to ).*')
-
-        to_time_matches = to_time_pattern.finditer(original_query)
-
-        for match in to_time_matches:
-            to_time_match = match
-
-        end_time = str.upper(to_time_match.group(0))
+        end_time = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=to ).*')
 
         self.temporal_query = "select {} from {} where valid_from < {} and valid_to > {}".format(
             self.selected_column, self.temporal_table_name, end_time,
@@ -136,23 +125,11 @@ class TemporalSelectQueryBuilder:
     def between_and_query_builder(self):
         original_query = ' '.join(self.query.query)
 
-        start_time_pattern = re.compile(r'(?<=between )(.*)(?= and)')
+        start_time = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=between )(.*)(?= and)')
 
-        start_time_matches = start_time_pattern.finditer(original_query)
-
-        for match in start_time_matches:
-            start_time_match = match
-
-        start_time = str.upper(start_time_match.group(0))
-
-        end_time_pattern = re.compile(r'(?<=and )(.*)')
-
-        end_time_matches = end_time_pattern.finditer(original_query)
-
-        for match in end_time_matches:
-            end_time_match = match
-
-        end_time = str.upper(end_time_match.group(0))
+        end_time = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=and )(.*)')
 
         self.temporal_query = "select {} from {} where valid_from <= {} and valid_to > {}".format(
             self.selected_column, self.temporal_table_name, end_time,
@@ -161,23 +138,11 @@ class TemporalSelectQueryBuilder:
     def contained_in_query_builder(self):
         original_query = ' '.join(self.query.query)
 
-        start_time_pattern = re.compile(r'(?<=\()(.*)(?=,)')
+        start_time = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=\()(.*)(?=,)')
 
-        start_time_matches = start_time_pattern.finditer(original_query)
-
-        for match in start_time_matches:
-            start_time_match = match
-
-        start_time = str.upper(start_time_match.group(0))
-
-        end_time_pattern = re.compile(r'(?<=,)(.*)[^\)]+')
-
-        end_time_matches = end_time_pattern.finditer(original_query)
-
-        for match in end_time_matches:
-            end_time_match = match
-
-        end_time = str.upper(end_time_match.group(0).strip(' '))
+        end_time = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=,)(.*)[^\)]+').strip(' ')
 
         self.temporal_query = "select {} from {} where valid_from >= {} and valid_to <= {}".format(
             self.selected_column, self.temporal_table_name, start_time,
