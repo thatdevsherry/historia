@@ -14,20 +14,20 @@ for temporal tables is in most databases. I just wanted a project to work on so 
 
 ## How it works (Simple Edition)
 
-The only part it does itself is the parsing and creation of temporal queries. The connection and execute functions just call the sqlite3 functions.
+The only part it does itself is the parsing and creation of temporal queries. The connection and execute functions just call the sqlite3 functions. It's like that kid that copies others work and pretends he did it.
 
 ### Table Creation
 
-You enter a query to create a table. The module looks at disgust on how bad you named the table and columns. It then creates another table (the history one) with two additional columns, **valid_from** and **valid_to**.
+You enter a query to create a table. The module looks in disgust on how bad you named the table and columns. It then creates another table (the history one) with two additional columns, **valid_from** and **valid_to**.
 
 ### Manipulation
 
-When you enter queries for inserting/updating or deleting, it automatically parses your query and creates a temporal query from it and executes both of them using python's sqlite3 module.
+When you enter queries for inserting/updating or deleting, it automatically parses your query and creates a temporal query from it and executes both of them using python's sqlite3 module. (I'm saying this quite often now)
 
 ### Fetching
 
 When you enter a select statement, it looks if you used a temporal clause like AS OF. If you don't, it runs the normal query and gives you the result from temporal table (current/NOT THE HISTORY ONE). If you do enter a temporal
-clause, it parses it and uses really complicated equations e.g. a > b and b < c and returns the result from history_table.
+clause, it parses it and uses really complicated equations e.g. (a > b AND b < c) and returns the result from history_table.
 
 ## Status
 
