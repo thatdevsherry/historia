@@ -78,10 +78,16 @@ sqlite> select * from test_history;
 
 ### Select Query
 
-Works with AS OF for now.
+Working clauses:
 
-example
+- **AS OF**
 
 ```
 select * from test as of '2018-11-05T15:00:00.000000'
+```
+
+- **FROM 'X' TO 'Z'**
+
+```
+select * from test from '2018-11-05T09:00:00.000000' to '2018-11-06T12:00:00.000000'
 ```
