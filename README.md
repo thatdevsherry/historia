@@ -64,7 +64,7 @@ New rows get created in temporal table on every new row added in normal table.
 sqlite> select * from test;
 1|sherry
 sqlite> select * from test_history;
-1|sherry|2018-11-06T14:56:05.438586|9999-12-31T00:00:00.000000
+1|sherry|2018-11-06T15:02:40.079655|9999-12-31T00:00:00.000000
 ```
 
 ### Update Query
@@ -83,8 +83,8 @@ Works but has limitations:
 sqlite> select * from test;
 1|it_changed
 sqlite> select * from test_history;
-1|sherry|2018-11-06T14:56:05.438586|2018-11-06T14:56:46.039510
-1|it_changed|2018-11-06T14:56:46.041484|9999-12-31T00:00:00.000000
+1|sherry|2018-11-06T15:02:40.079655|2018-11-06T15:03:22.911268
+1|it_changed|2018-11-06T15:03:22.911268|9999-12-31T00:00:00.000000
 ```
 
 ### Delete Query
@@ -99,8 +99,8 @@ Database:
 ```
 sqlite> select * from test;
 sqlite> select * from test_history;
-1|sherry|2018-11-06T14:56:05.438586|2018-11-06T14:56:46.039510
-1|it_changed|2018-11-06T14:56:46.041484|2018-11-06T14:57:16.695179
+1|sherry|2018-11-06T15:02:40.079655|2018-11-06T15:03:22.911268
+1|it_changed|2018-11-06T15:03:22.911268|2018-11-06T15:03:49.029362
 ```
 
 ### Select Query
