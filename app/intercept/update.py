@@ -111,18 +111,6 @@ class UpdateQueryBuilder:
         new_value = new_value_unstripped.strip("'")
         return new_value
 
-    def get_where_condition(original_query):
-        where_condition_value_pattern = re.compile(r'(?<=where )[^ ]+')
-
-        where_condition_value_matches = where_condition_value_pattern.finditer(
-            original_query)
-
-        for match in where_condition_value_matches:
-            where_condition_value_match = match
-
-        where_condition_value = where_condition_value_match.group(0)
-        return where_condition_value
-
     def get_update_column(original_query):
         update_column_pattern = re.compile(r'(?<=set )[^=]+')
 
