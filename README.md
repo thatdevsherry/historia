@@ -91,3 +91,9 @@ select * from test as of '2018-11-05T15:00:00.000000'
 ```
 select * from test from '2018-11-05T09:00:00.000000' to '2018-11-06T12:00:00.000000'
 ```
+
+- **BETWEEN 'X' AND 'Z'**
+
+```
+select * from test between '2018-11-05T12:00:00.000000' and '2018-11-06T09:00:00.000000'
+```
