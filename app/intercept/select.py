@@ -8,7 +8,7 @@ class TemporalSelectQueryBuilder:
                  temporal_query=None,
                  temporal_clause=None,
                  table_name=None,
-                 temporal_table_name=None):
+                 temporal_table_name=None,
                  selected_column=None):
         self.query = query
         self.temporal_query = temporal_query
@@ -37,6 +37,7 @@ class TemporalSelectQueryBuilder:
             selected_column_match = match
 
         self.selected_column = selected_column_match.group(0)
+
     def set_original_table_name(self):
         original_query = ' '.join(self.query.query)
 
@@ -46,6 +47,7 @@ class TemporalSelectQueryBuilder:
 
         for match in table_name_matches:
             table_name_match = match
+            break
 
         self.table_name = table_name_match.group(0)
 
@@ -56,7 +58,7 @@ class TemporalSelectQueryBuilder:
         original_query = ' '.join(self.query.query)
 
         # get clause
-        clause_pattern = re.compile(r'(as of|during|after)')
+        clause_pattern = re.compile(r'(as of|to)')
 
         clause_matches = clause_pattern.finditer(original_query)
 
@@ -68,6 +70,9 @@ class TemporalSelectQueryBuilder:
     def build_temporal_query(self):
         if self.temporal_clause == "as of":
             TemporalSelectQueryBuilder.as_of_query_builder(self)
+
+        elif self.temporal_clause == "to":
+            TemporalSelectQueryBuilder.from_to_query_builder(self)
 
         else:
             raise Exception("wut????")
@@ -95,3 +100,29 @@ class TemporalSelectQueryBuilder:
 
         self.temporal_query = "select {} from {} where valid_from <= {} and valid_to > {}".format(
             column, self.temporal_table_name, entered_time, entered_time)
+
+    def from_to_query_builder(self):
+        original_query = ' '.join(self.query.query)
+
+        from_time_pattern = re.compile(r'(?<={} from )(.*)(?= to)'.format(
+            self.table_name))
+
+        from_time_matches = from_time_pattern.finditer(original_query)
+
+        for match in from_time_matches:
+            from_time_match = match
+
+        start_time = str.upper(from_time_match.group(0))
+
+        to_time_pattern = re.compile(r'(?<=to ).*')
+
+        to_time_matches = to_time_pattern.finditer(original_query)
+
+        for match in to_time_matches:
+            to_time_match = match
+
+        end_time = str.upper(to_time_match.group(0))
+
+        self.temporal_query = "select {} from {} where valid_from < {} and valid_to > {}".format(
+            self.selected_column, self.temporal_table_name, end_time,
+            start_time)
