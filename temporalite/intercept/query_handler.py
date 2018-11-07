@@ -1,16 +1,16 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-from app.intercept.create import CreateQueryBuilder
-from app.intercept.delete import DeleteQueryBuilder
-from app.intercept.insert import InsertQueryBuilder
-from app.intercept.select import TemporalSelectQueryBuilder
-from app.intercept.update import UpdateQueryBuilder
-from app.intercept.select_handler import SelectQueryHandler
-from app.sqlite3.query_execution.create import CreateQuery
-from app.sqlite3.query_execution.delete import DeleteQuery
-from app.sqlite3.query_execution.insert import InsertQuery
-from app.sqlite3.query_execution.select import (NormalSelectQuery,
-                                                TemporalSelectQuery)
-from app.sqlite3.query_execution.update import UpdateQuery
+from .create import CreateQueryBuilder
+from .delete import DeleteQueryBuilder
+from .insert import InsertQueryBuilder
+from .select import TemporalSelectQueryBuilder
+from .update import UpdateQueryBuilder
+from .select_handler import SelectQueryHandler
+from ..sqlite3.query_execution.create import CreateQuery
+from ..sqlite3.query_execution.delete import DeleteQuery
+from ..sqlite3.query_execution.insert import InsertQuery
+from ..sqlite3.query_execution.select import (NormalSelectQuery,
+                                              TemporalSelectQuery)
+from ..sqlite3.query_execution.update import UpdateQuery
 
 
 class QueryHandler:

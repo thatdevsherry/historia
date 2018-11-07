@@ -1,5 +1,5 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-from app.constants import temporal_keywords_list
+from ..constants.constants import temporal_keywords_list
 
 
 class SyntaxConstraintsCheck:
