@@ -3,3 +3,4 @@ dist
 MANIFEST
 env
 __pycache__
+temporalite.egg-info
