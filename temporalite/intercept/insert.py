@@ -30,7 +30,6 @@ class InsertQueryBuilder:
         for match in matches:
             table_name_match = match
 
-        table_name_span = table_name_match.span()
         self.table_name = table_name_match.group(0)
 
     def get_table_span(original_query):

@@ -53,8 +53,9 @@ class UpdateQueryBuilder:
 
         condition = UpdateQueryBuilder.get_where_condition(original_query)
 
-        temporal_query = "update {} set valid_to='{}' where {} and valid_to='9999-12-31T00:00:00.000000'".format(
-            self.temporal_table_name, date_string, condition)
+        temporal_query = "update {} set valid_to='{}' where {} and \
+        valid_to='9999-12-31T00:00:00.000000'".format(self.temporal_table_name,
+                                                      date_string, condition)
 
         self.temporal_query = temporal_query
 

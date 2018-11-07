@@ -43,8 +43,9 @@ class DeleteQueryBuilder:
 
         time_string = datetime.datetime.now().isoformat()
 
-        self.temporal_query = "update {} set valid_to='{}' where {} and valid_to='9999-12-31T00:00:00.000000'".format(
-            self.temporal_table_name, time_string, condition)
+        self.temporal_query = "update {} set valid_to='{}' where {} and \
+        valid_to='9999-12-31T00:00:00.000000'".format(self.temporal_table_name,
+                                                      time_string, condition)
 
     def get_where_condition(original_query):
         where_condition_pattern = re.compile(r'(?<=where )(.*)')
