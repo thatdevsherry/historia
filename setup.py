@@ -2,6 +2,7 @@ from distutils.core import setup
 
 setup(
     name='temporalite',
+    version = '0.1'
     description='Implement temporal tables using sqlite3 module',
     url='https://www.github.com/ShehriyarQureshi/temporalite.git',
     author='Shehriyar Qureshi',
