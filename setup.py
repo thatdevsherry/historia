@@ -7,9 +7,9 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='temporalite',
-    version='0.1',
+    version='0.2',
     download_url=
-    'https://github.com/ShehriyarQureshi/temporalite/archive/0.1.tar.gz',
+    'https://github.com/ShehriyarQureshi/temporalite/archive/0.2.tar.gz',
     keywords=[
         'temporal', 'database', 'tables', 'history', 'history-table',
         'temporal-table'
