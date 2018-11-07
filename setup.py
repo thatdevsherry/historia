@@ -15,4 +15,5 @@ setup(
         'temporalite.parser',
         'temporalite.sqlite3',
     ],
-    zip_safe=False)
+    zip_safe=False,
+)
