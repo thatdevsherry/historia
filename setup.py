@@ -1,4 +1,9 @@
+from os import path
 from distutils.core import setup
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
     name='temporalite',
@@ -10,12 +15,7 @@ setup(
         'temporal-table'
     ],
     description='Implement temporal tables using sqlite3 module',
-    long_description='''
-    This module implements temporal tables using python's built-in sqlite3
-    module. It captures the query, parses it and creates another query that
-    is used for temporal table. It does the parsing and building of temporal
-    query and then uses sqlite3 to execute those queries.
-    ''',
+    long_description=long_description,
     url='https://www.github.com/ShehriyarQureshi/temporalite.git',
     author='Shehriyar Qureshi',
     author_email='SShehriyar266@gmail.com',
