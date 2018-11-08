@@ -22,7 +22,7 @@ class InsertQueryBuilder:
         InsertQueryBuilder.set_temporal_table_name(self)
 
     def set_original_table_name(self):
-        original_query = self.query.query
+        original_query = self.query
         table_name_pattern = re.compile(r'(?<=into )(.*)(?= values)')
 
         matches = table_name_pattern.finditer(original_query)
@@ -72,7 +72,7 @@ class InsertQueryBuilder:
         return values
 
     def build_temporal_query(self):
-        original_query = self.query.query
+        original_query = self.query
 
         table_name_span = InsertQueryBuilder.get_table_span(original_query)
 

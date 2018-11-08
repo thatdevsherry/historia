@@ -22,7 +22,7 @@ class DeleteQueryBuilder:
         DeleteQueryBuilder.set_temporal_table_name(self)
 
     def set_original_table_name(self):
-        original_query = self.query.query
+        original_query = self.query
 
         table_name_pattern = re.compile(r'(?<=from ).\S+')
 
@@ -37,7 +37,7 @@ class DeleteQueryBuilder:
         self.temporal_table_name = self.table_name + "_history"
 
     def build_temporal_query(self):
-        original_query = self.query.query
+        original_query = self.query
 
         condition = DeleteQueryBuilder.get_where_condition(original_query)
 

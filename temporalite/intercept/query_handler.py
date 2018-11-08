@@ -16,35 +16,33 @@ from temporalite.sqlite3.query_execution.update import UpdateQuery
 
 
 class QueryHandler:
-    def action_handler(connection, parsed_query):
+    def action_handler(connection, query):
         keyword_pattern = re.compile(r'(create|insert|update|delete|select)')
-        keyword_matches = keyword_pattern.finditer(parsed_query.query)
+        keyword_matches = keyword_pattern.finditer(query)
 
         for match in keyword_matches:
             keyword_match = match.group(0)
 
         if keyword_match == "create":
-            query_info = CreateQueryBuilder(parsed_query)
+            query_info = CreateQueryBuilder(query)
             CreateQuery.execute(connection, query_info)
 
         elif keyword_match == "insert":
-            query_info = InsertQueryBuilder(parsed_query)
+            query_info = InsertQueryBuilder(query)
             InsertQuery.execute(connection, query_info)
 
         elif keyword_match == "update":
-            query_info = UpdateQueryBuilder(parsed_query, connection)
+            query_info = UpdateQueryBuilder(query, connection)
             UpdateQuery.execute(connection, query_info)
 
         elif keyword_match == "delete":
-            query_info = DeleteQueryBuilder(parsed_query)
+            query_info = DeleteQueryBuilder(query)
             DeleteQuery.execute(connection, query_info)
 
         elif keyword_match == "select":
-            if SelectQueryHandler.is_temporal_query(
-                    parsed_query.query) is True:
-                query_info = TemporalSelectQueryBuilder(parsed_query)
+            if SelectQueryHandler.is_temporal_query(query) is True:
+                query_info = TemporalSelectQueryBuilder(query)
                 return TemporalSelectQuery.execute(connection, query_info)
 
             else:
-                return NormalSelectQuery.execute(connection,
-                                                 parsed_query.query)
+                return NormalSelectQuery.execute(connection, query)

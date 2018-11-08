@@ -1,6 +1,5 @@
 import sqlite3
 
-from temporalite.parser.query_parser import QueryParser
 from temporalite.intercept.query_handler import QueryHandler
 
 
@@ -15,9 +14,8 @@ class Connection:
         self.sqlite_connection = sqlite3.connect(self.database_file)
 
     def execute(self, args):
-        parsed_query = QueryParser(args)
         return QueryHandler.action_handler(self.sqlite_connection,
-                                           parsed_query)
+                                           str.lower(args))
 
     def commit(self):
         self.sqlite_connection.commit()

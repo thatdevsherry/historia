@@ -4,6 +4,6 @@
 class DeleteQuery:
     def execute(connection, query_info):
         # execute normal query
-        connection.execute(query_info.query.query)
+        connection.execute(query_info.query)
         # execute temporal table query
         connection.execute(query_info.temporal_query)
