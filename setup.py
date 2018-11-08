@@ -7,9 +7,9 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='temporalite',
-    version='0.3',
+    version='0.4',
     download_url=
-    'https://github.com/ShehriyarQureshi/temporalite/archive/0.2.tar.gz',
+    'https://github.com/ShehriyarQureshi/temporalite/archive/0.4.tar.gz',
     keywords=[
         'temporal', 'database', 'tables', 'history', 'history-table',
         'temporal-table'
@@ -22,7 +22,7 @@ setup(
     license='GPLv3',
     packages=[
         'temporalite', 'temporalite.connection', 'temporalite.intercept',
-        'temporalite.parser', 'temporalite.sqlite3'
+        'temporalite.sqlite3'
     ],
     zip_safe=False,
 )
