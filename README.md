@@ -36,7 +36,7 @@ clause, it parses it and uses really complicated equations e.g. (a > b AND b < c
 Able to create tables.
 
 ```
->>> from temporalite.connection import temporalite
+>>> import temporalite
 >>> connection = temporalite.connect('abcd')
 >>> connection.execute("CREATE TABLE test (id INT PRIMARY KEY NOT NULL, name TEXT)")
 ```
