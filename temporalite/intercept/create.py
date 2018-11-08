@@ -64,8 +64,7 @@ class CreateQueryBuilder:
         for match in matches:
             columns = match.group(0)
 
-        new_columns_string = columns + ", valid_from datetime, \
-        valid_to datetime)"
+        new_columns_string = columns + ", valid_from datetime, valid_to datetime)"
 
         return new_columns_string
 
