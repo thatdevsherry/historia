@@ -1,3 +1,4 @@
+# Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
 import sqlite3
 
 from temporalite.intercept.query_handler import QueryHandler
