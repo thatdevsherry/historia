@@ -4,7 +4,7 @@ import re
 
 class SelectQueryHandler:
     def is_temporal_query(parsed_query):
-        original_query = ' '.join(parsed_query)
+        original_query = parsed_query
 
         # will add more clauses as they're implemented
         temporal_clause_pattern = re.compile(

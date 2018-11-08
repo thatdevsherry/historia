@@ -1,7 +1,7 @@
 import sqlite3
 
-from ..parser.query_parser import QueryParser
-from ..intercept.query_handler import QueryHandler
+from temporalite.parser.query_parser import QueryParser
+from temporalite.intercept.query_handler import QueryHandler
 
 
 class Connection:

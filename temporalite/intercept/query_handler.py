@@ -1,37 +1,45 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
-from .create import CreateQueryBuilder
-from .delete import DeleteQueryBuilder
-from .insert import InsertQueryBuilder
-from .select import TemporalSelectQueryBuilder
-from .update import UpdateQueryBuilder
-from .select_handler import SelectQueryHandler
-from ..sqlite3.query_execution.create import CreateQuery
-from ..sqlite3.query_execution.delete import DeleteQuery
-from ..sqlite3.query_execution.insert import InsertQuery
-from ..sqlite3.query_execution.select import (NormalSelectQuery,
-                                              TemporalSelectQuery)
-from ..sqlite3.query_execution.update import UpdateQuery
+import re
+
+from temporalite.intercept.create import CreateQueryBuilder
+from temporalite.intercept.delete import DeleteQueryBuilder
+from temporalite.intercept.insert import InsertQueryBuilder
+from temporalite.intercept.select import TemporalSelectQueryBuilder
+from temporalite.intercept.update import UpdateQueryBuilder
+from temporalite.intercept.select_handler import SelectQueryHandler
+from temporalite.sqlite3.query_execution.create import CreateQuery
+from temporalite.sqlite3.query_execution.delete import DeleteQuery
+from temporalite.sqlite3.query_execution.insert import InsertQuery
+from temporalite.sqlite3.query_execution.select import (NormalSelectQuery,
+                                                        TemporalSelectQuery)
+from temporalite.sqlite3.query_execution.update import UpdateQuery
 
 
 class QueryHandler:
     def action_handler(connection, parsed_query):
-        if parsed_query.query[0] == "create":
+        keyword_pattern = re.compile(r'(create|insert|update|delete|select)')
+        keyword_matches = keyword_pattern.finditer(parsed_query.query)
+
+        for match in keyword_matches:
+            keyword_match = match.group(0)
+
+        if keyword_match == "create":
             query_info = CreateQueryBuilder(parsed_query)
             CreateQuery.execute(connection, query_info)
 
-        elif parsed_query.query[0] == "insert":
+        elif keyword_match == "insert":
             query_info = InsertQueryBuilder(parsed_query)
             InsertQuery.execute(connection, query_info)
 
-        elif parsed_query.query[0] == "update":
+        elif keyword_match == "update":
             query_info = UpdateQueryBuilder(parsed_query, connection)
             UpdateQuery.execute(connection, query_info)
 
-        elif parsed_query.query[0] == "delete":
+        elif keyword_match == "delete":
             query_info = DeleteQueryBuilder(parsed_query)
             DeleteQuery.execute(connection, query_info)
 
-        elif parsed_query.query[0] == "select":
+        elif keyword_match == "select":
             if SelectQueryHandler.is_temporal_query(
                     parsed_query.query) is True:
                 query_info = TemporalSelectQueryBuilder(parsed_query)

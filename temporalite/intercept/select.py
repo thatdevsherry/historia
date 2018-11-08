@@ -27,7 +27,7 @@ class TemporalSelectQueryBuilder:
         TemporalSelectQueryBuilder.set_temporal_table_name(self)
 
     def set_selected_column(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         selected_column_pattern = re.compile(r'(?<=select )[^ ]+')
         selected_column_matches = selected_column_pattern.finditer(
@@ -39,7 +39,7 @@ class TemporalSelectQueryBuilder:
         self.selected_column = selected_column_match.group(0)
 
     def set_original_table_name(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         table_name_pattern = re.compile(r'(?<=from )[^ ]+')
 
@@ -55,7 +55,7 @@ class TemporalSelectQueryBuilder:
         self.temporal_table_name = self.table_name + "_history"
 
     def set_temporal_clause(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         # get clause
         clause_pattern = re.compile(r'(as of|to|between|contained in)')
@@ -97,7 +97,7 @@ class TemporalSelectQueryBuilder:
         return entered_time
 
     def as_of_query_builder(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         entered_time = TemporalSelectQueryBuilder.get_regex_match(
             original_query, r'(?<=as of )[^ ]+')
@@ -110,7 +110,7 @@ class TemporalSelectQueryBuilder:
                               entered_time)
 
     def from_to_query_builder(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         start_time = TemporalSelectQueryBuilder.get_regex_match(
             original_query,
@@ -124,7 +124,7 @@ class TemporalSelectQueryBuilder:
                               end_time, start_time)
 
     def between_and_query_builder(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         start_time = TemporalSelectQueryBuilder.get_regex_match(
             original_query, r'(?<=between )(.*)(?= and)')
@@ -137,7 +137,7 @@ class TemporalSelectQueryBuilder:
                               end_time, start_time)
 
     def contained_in_query_builder(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         start_time = TemporalSelectQueryBuilder.get_regex_match(
             original_query, r'(?<=\()(.*)(?=,)')

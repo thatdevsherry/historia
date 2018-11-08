@@ -21,7 +21,7 @@ class CreateQueryBuilder:
         CreateQueryBuilder.set_temporal_table_name(self)
 
     def set_original_table_name(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
         get_table_pattern = re.compile(r'(?<=table )(.*)(?= \()')
 
         matches = get_table_pattern.finditer(original_query)
@@ -36,7 +36,7 @@ class CreateQueryBuilder:
         self.temporal_table_name = self.table_name + "_history"
 
     def build_temporal_query(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         new_columns_string = CreateQueryBuilder.build_temporal_columns(
             original_query)

@@ -3,7 +3,7 @@
 
 class NormalSelectQuery:
     def execute(connection, parsed_query):
-        return connection.execute(' '.join(parsed_query))
+        return connection.execute(parsed_query)
 
 
 class TemporalSelectQuery:

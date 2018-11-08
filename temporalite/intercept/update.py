@@ -28,7 +28,7 @@ class UpdateQueryBuilder:
         UpdateQueryBuilder.set_temporal_table_name(self)
 
     def set_original_table_name(self):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         table_name_pattern = re.compile(r'(?<=update )[^ ]+')
 
@@ -49,7 +49,7 @@ class UpdateQueryBuilder:
         UpdateQueryBuilder.build_temporal_query_insert(self, date_string)
 
     def build_temporal_query(self, date_string):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         condition = UpdateQueryBuilder.get_where_condition(original_query)
 
@@ -71,7 +71,7 @@ class UpdateQueryBuilder:
         return condition
 
     def build_temporal_query_insert(self, date_string):
-        original_query = ' '.join(self.query.query)
+        original_query = self.query.query
 
         new_value_string = UpdateQueryBuilder.get_new_values(original_query)
 
