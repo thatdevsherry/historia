@@ -1,7 +1,7 @@
 import sqlite3
 import subprocess
 
-from temporalite.sqlite3.connection import Connection
+from temporalite.connection.connection import Connection
 
 import pytest
 
