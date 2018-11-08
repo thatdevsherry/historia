@@ -21,8 +21,8 @@ setup(
     author_email='SShehriyar266@gmail.com',
     license='GPLv3',
     packages=[
-        'temporalite', 'temporalite.connection', 'temporalite.constants',
-        'temporalite.intercept', 'temporalite.parser', 'temporalite.sqlite3'
+        'temporalite', 'temporalite.connection', 'temporalite.intercept',
+        'temporalite.parser', 'temporalite.sqlite3'
     ],
     zip_safe=False,
 )
