@@ -8,12 +8,12 @@ from temporalite.intercept.insert import InsertQueryBuilder
 from temporalite.intercept.select import TemporalSelectQueryBuilder
 from temporalite.intercept.update import UpdateQueryBuilder
 from temporalite.intercept.select_handler import SelectQueryHandler
-from temporalite.sqlite3.query_execution.create import CreateQuery
-from temporalite.sqlite3.query_execution.delete import DeleteQuery
-from temporalite.sqlite3.query_execution.insert import InsertQuery
-from temporalite.sqlite3.query_execution.select import (NormalSelectQuery,
-                                                        TemporalSelectQuery)
-from temporalite.sqlite3.query_execution.update import UpdateQuery
+from temporalite.query_execution.create import CreateQuery
+from temporalite.query_execution.delete import DeleteQuery
+from temporalite.query_execution.insert import InsertQuery
+from temporalite.query_execution.select import (NormalSelectQuery,
+                                                TemporalSelectQuery)
+from temporalite.query_execution.update import UpdateQuery
 
 
 class QueryHandler:

@@ -2,8 +2,8 @@
 
 
 class NormalSelectQuery:
-    def execute(connection, parsed_query):
-        return connection.execute(parsed_query)
+    def execute(connection, query):
+        return connection.execute(query)
 
 
 class TemporalSelectQuery:
