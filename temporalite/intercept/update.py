@@ -7,6 +7,7 @@ class UpdateQueryBuilder:
     def __init__(self,
                  query,
                  connection,
+                 local_time,
                  temporal_query=None,
                  temporal_query_insert=None,
                  row_tuple=None,
@@ -15,13 +16,14 @@ class UpdateQueryBuilder:
         self.query = query
         self.temporal_query = temporal_query
         self.connection = connection
+        self.local_time = local_time
         self.temporal_query_insert = temporal_query_insert
         self.row_tuple = row_tuple
         self.table_name = table_name
         self.temporal_table_name = temporal_table_name
 
         self.set_table_names()
-        self.build_queries()
+        self.build_queries(local_time)
 
     def set_table_names(self):
         UpdateQueryBuilder.set_original_table_name(self)
@@ -43,10 +45,9 @@ class UpdateQueryBuilder:
         table_name = self.table_name
         self.temporal_table_name = table_name + "_history"
 
-    def build_queries(self):
-        date_string = datetime.datetime.now().isoformat()
-        UpdateQueryBuilder.build_temporal_query(self, date_string)
-        UpdateQueryBuilder.build_temporal_query_insert(self, date_string)
+    def build_queries(self, time_string):
+        UpdateQueryBuilder.build_temporal_query(self, time_string)
+        UpdateQueryBuilder.build_temporal_query_insert(self, time_string)
 
     def build_temporal_query(self, date_string):
         original_query = self.query

@@ -6,16 +6,18 @@ import datetime
 class InsertQueryBuilder:
     def __init__(self,
                  query,
+                 local_time,
                  table_name=None,
                  temporal_table_name=None,
                  temporal_query=None):
         self.query = query
+        self.local_time = local_time
         self.table_name = table_name
         self.temporal_table_name = temporal_table_name
         self.temporal_query = temporal_query
 
         self.set_table_names()
-        self.build_temporal_query()
+        self.build_temporal_query(local_time)
 
     def set_table_names(self):
         InsertQueryBuilder.set_original_table_name(self)
@@ -71,7 +73,7 @@ class InsertQueryBuilder:
         values = values_match.group(0)
         return values
 
-    def build_temporal_query(self):
+    def build_temporal_query(self, time_string):
         original_query = self.query
 
         table_name_span = InsertQueryBuilder.get_table_span(original_query)
@@ -83,8 +85,6 @@ class InsertQueryBuilder:
             self, original_query)
 
         values = InsertQueryBuilder.get_values(original_query)
-
-        time_string = datetime.datetime.now().isoformat()
 
         # this string will be cocatenated in the end position
         # it adds the temporal time column values and closing bracket

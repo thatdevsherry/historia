@@ -6,16 +6,18 @@ import datetime
 class DeleteQueryBuilder:
     def __init__(self,
                  query,
+                 local_time,
                  temporal_query=None,
                  table_name=None,
                  temporal_table_name=None):
         self.query = query
+        self.local_time = local_time
         self.temporal_query = temporal_query
         self.table_name = table_name
         self.temporal_table_name = temporal_table_name
 
         self.set_table_names()
-        self.build_temporal_query()
+        self.build_temporal_query(local_time)
 
     def set_table_names(self):
         DeleteQueryBuilder.set_original_table_name(self)
@@ -36,16 +38,13 @@ class DeleteQueryBuilder:
     def set_temporal_table_name(self):
         self.temporal_table_name = self.table_name + "_history"
 
-    def build_temporal_query(self):
+    def build_temporal_query(self, time_string):
         original_query = self.query
 
         condition = DeleteQueryBuilder.get_where_condition(original_query)
 
-        time_string = datetime.datetime.now().isoformat()
-
-        self.temporal_query = "update {} set valid_to='{}' where {} and \
-        valid_to='9999-12-31T00:00:00.000000'".format(self.temporal_table_name,
-                                                      time_string, condition)
+        self.temporal_query = "update {} set valid_to='{}' where {} and valid_to='9999-12-31T00:00:00.000000'".format(
+            self.temporal_table_name, time_string, condition)
 
     def get_where_condition(original_query):
         where_condition_pattern = re.compile(r'(?<=where )(.*)')

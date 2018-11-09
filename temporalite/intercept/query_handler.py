@@ -1,5 +1,6 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
 import re
+import datetime
 
 from temporalite.intercept.create import CreateQueryBuilder
 from temporalite.intercept.delete import DeleteQueryBuilder
@@ -28,15 +29,18 @@ class QueryHandler:
             CreateQuery.execute(connection, query_info)
 
         elif keyword_match == "insert":
-            query_info = InsertQueryBuilder(query)
+            time_string = datetime.datetime.now().isoformat()
+            query_info = InsertQueryBuilder(query, time_string)
             InsertQuery.execute(connection, query_info)
 
         elif keyword_match == "update":
-            query_info = UpdateQueryBuilder(query, connection)
+            time_string = datetime.datetime.now().isoformat()
+            query_info = UpdateQueryBuilder(query, connection, time_string)
             UpdateQuery.execute(connection, query_info)
 
         elif keyword_match == "delete":
-            query_info = DeleteQueryBuilder(query)
+            time_string = datetime.datetime.now().isoformat()
+            query_info = DeleteQueryBuilder(query, time_string)
             DeleteQuery.execute(connection, query_info)
 
         elif keyword_match == "select":
