@@ -21,7 +21,7 @@ setup(
     license='GPLv3',
     packages=[
         'temporalite', 'temporalite.connection', 'temporalite.intercept',
-        'temporalite.sqlite3', 'temporalite.tests'
+        'temporalite.query_execution', 'temporalite.tests'
     ],
     zip_safe=False,
 )
