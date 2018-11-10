@@ -152,3 +152,14 @@ class UpdateQueryBuilder:
             self.temporal_table_name, new_tuple)
 
         return insert_query
+
+    def get_column_values_list(values_string):
+        column_value_pattern = re.compile(r'[^=,]+')
+        column_value_matches = column_value_pattern.finditer(values_string)
+
+        values = []
+
+        for match in column_value_matches:
+            values.append(match)
+
+        return values
