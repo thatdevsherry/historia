@@ -163,3 +163,38 @@ class UpdateQueryBuilder:
             values.append(match)
 
         return values
+
+    def create_column_value_dictionary(column_value_list):
+        """
+        Converts column, value list to dictionary.
+
+        Args:
+            A list having odd index as column names and even indexes as their
+            values. e.g. name='something' would be ['name','something'].
+
+        Return Values:
+            A dictionary with keys as column values and key values as column
+            values.
+        """
+        column_value_dictionary = {}
+        try:
+            for element in column_value_list:
+                if column_value_list.index(element) == 0:
+                    column_value_dictionary[column_value_list[
+                        column_value_list.index(element)]] = column_value_list[
+                            column_value_list.index(element) + 1]
+                elif column_value_list.index(element) < 2:
+                    column_value_dictionary[column_value_list[
+                        column_value_list.index(element) +
+                        1]] = column_value_list[
+                            column_value_list.index(element) + 2]
+
+                elif column_value_list.index(element) >= 2:
+                    column_value_dictionary[column_value_list[
+                        column_value_list.index(element) +
+                        column_value_list.index(element)]] = column_value_list[
+                            column_value_list.index(element) +
+                            column_value_list.index(element) + 1]
+
+        except IndexError:
+            return column_value_dictionary
