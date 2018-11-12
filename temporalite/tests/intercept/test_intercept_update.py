@@ -33,11 +33,6 @@ def test_temporal_table_name():
     assert "test_history" == builder_object.temporal_table_name
 
 
-def test_get_update_column():
-    test_query = "update test set name='abcd' where id=1"
-    assert "name" == UpdateQueryBuilder.get_update_column(test_query)
-
-
 def test_full_row():
     test_query = "update test set name='abcd' where id=1"
     connection = sqlite3.connect('test_file')
@@ -50,14 +45,6 @@ def test_full_row():
 def test_get_new_values():
     test_query = "update test set name='abcd' where id=1"
     assert "name='abcd'" == UpdateQueryBuilder.get_new_values(test_query)
-
-
-def test_get_only_column_value():
-    test_query = "update test set name='abcd' where id=1"
-    connection = sqlite3.connect('test_file')
-    builder_object = UpdateQueryBuilder(test_query, connection,
-                                        datetime.datetime.now().isoformat())
-    assert "sherry" == builder_object.get_only_column_value("id=1", "name")
 
 
 def test_query():
