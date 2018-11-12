@@ -73,21 +73,23 @@ class UpdateQueryBuilder:
     def build_temporal_query_insert(self, date_string):
         original_query = self.query
 
-        new_value_string = UpdateQueryBuilder.get_new_values(original_query)
+        new_values_string = UpdateQueryBuilder.get_new_values(original_query)
+        # pass this to a function that gets the values and creates a dictionary
+        column_value_list = UpdateQueryBuilder.create_column_values_list(
+            new_values_string)
 
-        new_value = UpdateQueryBuilder.get_new_value(new_value_string)
+        column_value_dict = UpdateQueryBuilder.create_column_value_dictionary(
+            column_value_list)
 
         condition = UpdateQueryBuilder.get_where_condition(original_query)
 
-        update_column = UpdateQueryBuilder.get_update_column(original_query)
+        full_row = UpdateQueryBuilder.get_full_row(self, condition)
 
-        query_result = UpdateQueryBuilder.get_full_row(self, condition)
-
-        previous_value = UpdateQueryBuilder.get_only_column_value(
-            self, condition, update_column)
+        new_row_tuple = UpdateQueryBuilder.create_new_query_values(
+            self, column_value_dict, full_row)
 
         self.temporal_query_insert = UpdateQueryBuilder.build_query(
-            self, query_result, previous_value, new_value, date_string)
+            self, new_row_tuple, date_string)
 
     def get_new_values(original_query):
         set_value_pattern = re.compile(r'(?<=set )[^ ]+')
@@ -100,29 +102,6 @@ class UpdateQueryBuilder:
         set_value_string = set_value_match.group(0)
         return set_value_string
 
-    def get_new_value(new_value_string):
-        new_value_pattern = re.compile(r'(?<==)[^ ]+')
-
-        new_value_matches = new_value_pattern.finditer(new_value_string)
-
-        for match in new_value_matches:
-            new_value_match = match
-
-        new_value_unstripped = new_value_match.group(0)
-        new_value = new_value_unstripped.strip("'")
-        return new_value
-
-    def get_update_column(original_query):
-        update_column_pattern = re.compile(r'(?<=set )[^=]+')
-
-        update_column_matches = update_column_pattern.finditer(original_query)
-
-        for match in update_column_matches:
-            update_column_match = match
-
-        update_column = update_column_match.group(0)
-        return update_column
-
     def get_full_row(self, condition):
         query = self.connection.execute("select * from {} where {}".format(
             self.table_name, condition))
@@ -130,37 +109,32 @@ class UpdateQueryBuilder:
         self.row_tuple = query_result
         return query_result
 
-    def get_only_column_value(self, condition, update_column):
-        get_column_query = self.connection.execute(
-            "select {} from {} where {}".format(update_column, self.table_name,
-                                                condition))
+    def build_query(self, new_row_tuple, date_string):
+        query_result_list = list(new_row_tuple)
+        stripped_query_list = []
+        for value in query_result_list:
+            if isinstance(value, str) is True:
+                stripped_query_list.append(value.strip("'"))
+            else:
+                stripped_query_list.append(value)
 
-        previous_value = get_column_query.fetchone()[0]
-        return previous_value
-
-    def build_query(self, query_result, previous_value, new_value,
-                    date_string):
-        query_result_list = list(query_result)
-        old_value_index = query_result_list.index(previous_value)
-        query_result_list.pop(old_value_index)
-        query_result_list.insert(old_value_index, new_value)
-        query_result_list.append('{}'.format(date_string))
-        query_result_list.append('9999-12-31T00:00:00.000000')
-        new_tuple = tuple(query_result_list)
+        stripped_query_list.append('{}'.format(date_string))
+        stripped_query_list.append('9999-12-31T00:00:00.000000')
+        new_tuple = tuple(stripped_query_list)
 
         insert_query = "insert into {} values {}".format(
             self.temporal_table_name, new_tuple)
 
         return insert_query
 
-    def get_column_values_list(values_string):
+    def create_column_values_list(values_string):
         column_value_pattern = re.compile(r'[^=,]+')
         column_value_matches = column_value_pattern.finditer(values_string)
 
         values = []
 
         for match in column_value_matches:
-            values.append(match)
+            values.append(match.group(0))
 
         return values
 
