@@ -198,3 +198,20 @@ class UpdateQueryBuilder:
 
         except IndexError:
             return column_value_dictionary
+
+    def create_new_query_values(self, column_value_dictionary, full_row):
+        full_row_list = list(full_row)
+
+        for column in column_value_dictionary.keys():
+            query_result = self.connection.execute(
+                "select {} from test where {}".format(
+                    column,
+                    UpdateQueryBuilder.get_where_condition(self.query)))
+
+            old_value = query_result.fetchone()[0]
+            old_value_index = full_row_list.index(old_value)
+            full_row_list.pop(old_value_index)
+            full_row_list.insert(old_value_index,
+                                 column_value_dictionary[column])
+
+        return tuple(full_row_list)
