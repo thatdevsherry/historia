@@ -1,6 +1,5 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
 import re
-import datetime
 
 
 class UpdateQueryBuilder:
@@ -74,7 +73,7 @@ class UpdateQueryBuilder:
         original_query = self.query
 
         new_values_string = UpdateQueryBuilder.get_new_values(original_query)
-        # pass this to a function that gets the values and creates a dictionary
+
         column_value_list = UpdateQueryBuilder.create_column_values_list(
             new_values_string)
 
