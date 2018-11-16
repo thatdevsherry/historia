@@ -71,3 +71,29 @@ def test_temporal_query_insert():
     builder_object = UpdateQueryBuilder(test_query, connection, time_string)
     assert "insert into test_history values (1, 'abcd', '{}', '9999-12-31T00:00:00.000000')".format(
         time_string) == builder_object.temporal_query_insert
+
+
+def test_create_column_values_list():
+    values_string = "name='something',name2='wut'"
+    column_value_list = UpdateQueryBuilder.create_column_values_list(
+        values_string)
+    assert ['name', "'something'", 'name2', "'wut'"] == column_value_list
+
+
+def test_create_column_value_dictionary():
+    column_value_list = ['name', "'something'", 'name2', "'wut'"]
+    column_value_dictionary = UpdateQueryBuilder.create_column_value_dictionary(
+        column_value_list)
+    assert {'name': "'something'", 'name2': "'wut'"} == column_value_dictionary
+
+
+def test_create_new_query_values():
+    time_string = datetime.datetime.now().isoformat()
+    test_query = "update test set name='abcd' where id=1"
+    connection = sqlite3.connect('test_file')
+    builder_object = UpdateQueryBuilder(test_query, connection, time_string)
+    column_value_dictionary = {'name': "'something'", 'id': '10'}
+    full_row = (1, 'sherry')
+    new_query = builder_object.create_new_query_values(column_value_dictionary,
+                                                       full_row)
+    assert ('10', "'something'") == new_query
