@@ -69,11 +69,6 @@ sqlite> select * from test_history;
 
 ### Update Query
 
-Works but has limitations:
-
-- can only change one column per query
-- query must not have spaces in the column_name=new_value
-
 ```
 >>> connection.execute("UPDATE test SET name='it_changed' WHERE id=1")
 >>> connection.commit()
