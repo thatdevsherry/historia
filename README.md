@@ -69,8 +69,6 @@ sqlite> select * from test_history;
 
 ### Update Query
 
-Works but has limitations:
-
 ```
 >>> connection.execute("UPDATE test SET name='it_changed' WHERE id=1")
 >>> connection.commit()
