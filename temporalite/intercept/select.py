@@ -86,15 +86,15 @@ class TemporalSelectQueryBuilder:
             )
 
     def get_regex_match(query, regex):
-        entered_time_pattern = re.compile(regex)
+        """
+        Given a query and regex, return the first match.
+        """
+        pattern = re.compile(regex)
 
-        entered_time_matches = entered_time_pattern.finditer(query)
+        matches = pattern.finditer(query)
 
-        for match in entered_time_matches:
-            entered_time_match = match
-
-        entered_time = str.upper(entered_time_match.group(0))
-        return entered_time
+        for match in matches:
+            return str.upper(match.group(0))
 
     def as_of_query_builder(self):
         original_query = self.query
