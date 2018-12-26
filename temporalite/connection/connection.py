@@ -27,9 +27,6 @@ class Connection:
     def close(self):
         self.sqlite_connection.close()
 
-    # TODO: implement function to automatically create history tables of
-    # tables that already exist in db file
-
     def create_history_tables(self):
         query = self.sqlite_connection.execute(
             "SELECT name FROM sqlite_master WHERE type='table'")
