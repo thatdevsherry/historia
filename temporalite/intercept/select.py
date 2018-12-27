@@ -22,50 +22,46 @@ class TemporalSelectQueryBuilder:
         self.set_temporal_clause()
         self.build_temporal_query()
 
+    def get_regex_match(query, regex):
+        """
+        Given a string and regex, return the first match.
+        """
+        pattern = re.compile(regex)
+
+        matches = pattern.finditer(query)
+
+        for match in matches:
+            return str.upper(match.group(0))
+
     def set_table_names(self):
         TemporalSelectQueryBuilder.set_original_table_name(self)
         TemporalSelectQueryBuilder.set_temporal_table_name(self)
 
-    def set_selected_column(self):
-        original_query = self.query
-
-        selected_column_pattern = re.compile(r'(?<=select )[^ ]+')
-        selected_column_matches = selected_column_pattern.finditer(
-            original_query)
-
-        for match in selected_column_matches:
-            selected_column_match = match
-
-        self.selected_column = selected_column_match.group(0)
-
     def set_original_table_name(self):
         original_query = self.query
 
-        table_name_pattern = re.compile(r'(?<=from )[^ ]+')
+        match = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=from )[^ ]+')
 
-        table_name_matches = table_name_pattern.finditer(original_query)
-
-        for match in table_name_matches:
-            table_name_match = match
-            break
-
-        self.table_name = table_name_match.group(0)
+        self.table_name = str.lower(match)
 
     def set_temporal_table_name(self):
         self.temporal_table_name = self.table_name + "_history"
 
+    def set_selected_column(self):
+        original_query = self.query
+
+        match = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(?<=select )[^ ]+')
+
+        self.selected_column = str.lower(match)
+
     def set_temporal_clause(self):
         original_query = self.query
 
-        # get clause
-        clause_pattern = re.compile(r'(as of|to|between|contained in)')
-
-        clause_matches = clause_pattern.finditer(original_query)
-
-        for match in clause_matches:
-            temporal_clause_match = match
-
-        self.temporal_clause = temporal_clause_match.group(0)
+        match = TemporalSelectQueryBuilder.get_regex_match(
+            original_query, r'(as of|to|between|contained in)')
+        self.temporal_clause = str.lower(match)
 
     def build_temporal_query(self):
         if self.temporal_clause == "as of":
@@ -84,17 +80,6 @@ class TemporalSelectQueryBuilder:
             raise Exception(
                 "You entered a wrong temporal keyword or maybe you didn't enter one. Either way, you weren't supposed to see this."
             )
-
-    def get_regex_match(query, regex):
-        """
-        Given a query and regex, return the first match.
-        """
-        pattern = re.compile(regex)
-
-        matches = pattern.finditer(query)
-
-        for match in matches:
-            return str.upper(match.group(0))
 
     def as_of_query_builder(self):
         original_query = self.query
