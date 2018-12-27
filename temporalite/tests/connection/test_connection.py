@@ -1,4 +1,5 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
+import re
 import sqlite3
 import subprocess
 
@@ -39,3 +40,32 @@ def test_connection_commit():
 def test_connection_close():
     test_connection = Connection('test_file')
     assert test_connection.close() is None
+
+
+def test_create_history_table():
+    # setup db
+    connection = sqlite3.connect('test_file')
+    connection.execute("CREATE TABLE test (id int)")
+    connection.execute("CREATE TABLE test_again (id int, something int)")
+    connection.close()
+    # close setup
+
+    # start test
+
+    test_connection = Connection('test_file')
+    test_connection.close()
+
+    # should have created history tables for above tables
+    connection = sqlite3.connect('test_file')
+    query = connection.execute("SELECT sql FROM sqlite_master")
+    query_output = query.fetchall()
+    history_tables_list = []
+
+    for i in query_output:
+        pattern = re.compile("_history")
+        matches = pattern.finditer(i[0])
+
+        for match in matches:
+            history_tables_list.append(match.group(0))
+
+    assert len(history_tables_list) == 2
