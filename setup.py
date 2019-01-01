@@ -2,9 +2,9 @@ from distutils.core import setup
 
 setup(
     name='temporalite',
-    version='18.11.15',
+    version='19.1.1',
     download_url=
-    'https://github.com/ShehriyarQureshi/temporalite/archive/18.11.15.tar.gz',
+    'https://github.com/ShehriyarQureshi/temporalite/archive/19.1.1.tar.gz',
     keywords=[
         'temporal', 'database', 'tables', 'history', 'history-table',
         'temporal-table'
