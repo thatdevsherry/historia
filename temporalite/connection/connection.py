@@ -11,7 +11,6 @@ class Connection:
         self.sqlite_connection = sqlite_connection
         self.database_file = database_file
         self.verify_file_path()
-        self.create_history_tables()
 
     def verify_file_path(self):
         # raises sqlite3's exception if file path not valid
