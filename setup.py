@@ -23,9 +23,9 @@ from distutils.core import setup
 
 setup(
     name='temporalite',
-    version='19.1.1',
+    version='19.1.23',
     download_url=
-    'https://github.com/ShehriyarQureshi/temporalite/archive/19.1.1.tar.gz',
+    'https://github.com/ShehriyarQureshi/temporalite/archive/19.1.23.tar.gz',
     keywords=[
         'temporal', 'database', 'tables', 'history', 'history-table',
         'temporal-table'
@@ -39,7 +39,7 @@ setup(
     url='https://www.github.com/ShehriyarQureshi/temporalite.git',
     author='Shehriyar Qureshi',
     author_email='SShehriyar266@gmail.com',
-    license='GPLv3',
+    license='MIT',
     packages=[
         'temporalite', 'temporalite.connection', 'temporalite.intercept',
         'temporalite.query_execution', 'temporalite.tests'
