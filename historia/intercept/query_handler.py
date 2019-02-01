@@ -22,18 +22,18 @@ SOFTWARE.
 import re
 import datetime
 
-from temporalite.intercept.create import CreateQueryBuilder
-from temporalite.intercept.delete import DeleteQueryBuilder
-from temporalite.intercept.insert import InsertQueryBuilder
-from temporalite.intercept.select import TemporalSelectQueryBuilder
-from temporalite.intercept.update import UpdateQueryBuilder
-from temporalite.intercept.select_handler import SelectQueryHandler
-from temporalite.query_execution.create import CreateQuery
-from temporalite.query_execution.delete import DeleteQuery
-from temporalite.query_execution.insert import InsertQuery
-from temporalite.query_execution.select import (NormalSelectQuery,
+from historia.intercept.create import CreateQueryBuilder
+from historia.intercept.delete import DeleteQueryBuilder
+from historia.intercept.insert import InsertQueryBuilder
+from historia.intercept.select import TemporalSelectQueryBuilder
+from historia.intercept.update import UpdateQueryBuilder
+from historia.intercept.select_handler import SelectQueryHandler
+from historia.query_execution.create import CreateQuery
+from historia.query_execution.delete import DeleteQuery
+from historia.query_execution.insert import InsertQuery
+from historia.query_execution.select import (NormalSelectQuery,
                                                 TemporalSelectQuery)
-from temporalite.query_execution.update import UpdateQuery
+from historia.query_execution.update import UpdateQuery
 
 
 class QueryHandler:

@@ -23,7 +23,7 @@ import sqlite3
 import datetime
 import subprocess
 
-from temporalite.intercept.update import UpdateQueryBuilder
+from historia.intercept.update import UpdateQueryBuilder
 
 
 def setup_module():

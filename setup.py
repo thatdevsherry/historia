@@ -22,27 +22,27 @@ SOFTWARE.
 from distutils.core import setup
 
 setup(
-    name='temporalite',
-    version='19.1.23',
+    name='historia',
+    version='19.2.1',
     download_url=
-    'https://github.com/ShehriyarQureshi/temporalite/archive/19.1.23.tar.gz',
+    'https://github.com/ShehriyarQureshi/historia/archive/19.2.1.tar.gz',
     keywords=[
         'temporal', 'database', 'tables', 'history', 'history-table',
         'temporal-table'
     ],
-    description='Implement temporal tables using sqlite3 module',
+    description='Support for history tables in SQLite using Python\'s built-in sqlite3 module',
     long_description="""
     This module uses python's sqlite3 module for implementing temporal tables.
     It allows querying the history table to get information about the state
     of table in the past.
     """,
-    url='https://www.github.com/ShehriyarQureshi/temporalite.git',
+    url='https://www.github.com/ShehriyarQureshi/historia.git',
     author='Shehriyar Qureshi',
     author_email='SShehriyar266@gmail.com',
     license='MIT',
     packages=[
-        'temporalite', 'temporalite.connection', 'temporalite.intercept',
-        'temporalite.query_execution', 'temporalite.tests'
+        'historia', 'historia.connection', 'historia.intercept',
+        'historia.query_execution', 'historia.tests'
     ],
     zip_safe=False,
 )

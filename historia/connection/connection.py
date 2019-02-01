@@ -1,9 +1,9 @@
 # Copyright 2018 Shehriyar Qureshi <SShehriyar266@gmail.com>
 import sqlite3
 
-from temporalite.intercept.create import CreateQueryBuilder
-from temporalite.intercept.query_handler import QueryHandler
-from temporalite.query_execution.create import CreateQuery
+from historia.intercept.create import CreateQueryBuilder
+from historia.intercept.query_handler import QueryHandler
+from historia.query_execution.create import CreateQuery
 
 
 class Connection:

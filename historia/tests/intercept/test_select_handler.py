@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from temporalite.intercept.select_handler import SelectQueryHandler
+from historia.intercept.select_handler import SelectQueryHandler
 
 
 def test_is_temporal_query_with_no_keywords_false():

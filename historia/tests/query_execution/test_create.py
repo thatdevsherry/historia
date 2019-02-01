@@ -20,30 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import sqlite3
-import datetime
 import subprocess
 
-from temporalite.intercept.update import UpdateQueryBuilder
-from temporalite.query_execution.update import UpdateQuery
-
-
-def setup_module():
-    connection = sqlite3.connect('test_file')
-    connection.execute("create table test (id int, name text)")
-    connection.execute(
-        "create table test_history (id int, name text, valid_from datetime, valid_to datetime)"
-    )
-    connection.execute("insert into test values (1, 'sherry')")
-    connection.commit()
+from historia.intercept.create import CreateQueryBuilder
+from historia.query_execution.create import CreateQuery
 
 
 def teardown_module():
     subprocess.call(["rm", "test_file"])
 
 
-def test_update_query_execution():
-    test_query = "update test set name='something' where id=1"
-    connection = sqlite3.connect("test_file")
-    query_info = UpdateQueryBuilder(test_query, connection,
-                                    datetime.datetime.now().isoformat())
-    assert None is UpdateQuery.execute(connection, query_info)
+def test_execute():
+    query = "create table test (id int, name text)"
+    connection = sqlite3.connect('test_file')
+    query_info = CreateQueryBuilder(query)
+    assert None is CreateQuery.execute(connection, query_info)

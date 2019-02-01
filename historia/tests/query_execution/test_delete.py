@@ -19,15 +19,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+import sqlite3
+import datetime
 import subprocess
 
-from temporalite.connect import connect
+from historia.intercept.delete import DeleteQueryBuilder
+from historia.query_execution.delete import DeleteQuery
+
+
+def setup_module():
+    connection = sqlite3.connect("test_file")
+    connection.execute("create table test (id int, name text)")
+    connection.execute(
+        "create table test_history (id int, name text, valid_from datetime, valid_to datetime)"
+    )
+    connection.execute("insert into test values (1, 'sherry')")
+    connection.commit()
 
 
 def teardown_module():
     subprocess.call(["rm", "test_file"])
 
 
-def test_connect():
-    test_connection = connect('test_file')
-    assert test_connection is not None
+def test_delete_query_execution():
+    test_query = "delete from test where id=1"
+    connection = sqlite3.connect("test_file")
+    query_info = DeleteQueryBuilder(test_query,
+                                    datetime.datetime.now().isoformat())
+    assert None is DeleteQuery.execute(connection, query_info)

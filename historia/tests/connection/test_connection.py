@@ -23,7 +23,7 @@ import re
 import sqlite3
 import subprocess
 
-from temporalite.connection.connection import Connection
+from historia.connection.connection import Connection
 
 import pytest
 
