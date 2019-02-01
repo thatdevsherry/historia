@@ -1,4 +1,4 @@
-# temporalite
+# Historia
 A Python module which implements temporal tables using python's built-in sqlite3 module.
 
 
@@ -36,8 +36,8 @@ clause, it parses it and uses really complicated equations e.g. (a > b AND b < c
 Able to create tables.
 
 ```
->>> import temporalite
->>> connection = temporalite.connect('abcd')
+>>> import historia
+>>> connection = historia.connect('abcd')
 >>> connection.execute("CREATE TABLE test (id INT PRIMARY KEY NOT NULL, name TEXT)")
 ```
 
