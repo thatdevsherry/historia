@@ -1,4 +1,4 @@
-# Historia
+# historia
 A Python module which implements temporal tables using python's built-in sqlite3 module.
 
 
