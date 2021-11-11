@@ -23,7 +23,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        working-directory: ./services/authentication
         run: |
           pip install --upgrade pip pip-tools
           pip-sync requirements/github-actions.txt
