@@ -28,7 +28,7 @@ from historia.query_execution.insert import InsertQuery
 
 
 def setup_module():
-    connection = sqlite3.connect('test_file')
+    connection = sqlite3.connect("test_file")
     connection.execute("create table test (id int, name text)")
     connection.execute(
         "create table test_history (id int, name text, valid_from datetime, valid_to datetime)"
@@ -41,7 +41,6 @@ def teardown_module():
 
 def test_insert_execution():
     test_query = "insert into test values (1, 'sherry')"
-    connection = sqlite3.connect('test_file')
-    query_info = InsertQueryBuilder(test_query,
-                                    datetime.datetime.now().isoformat())
+    connection = sqlite3.connect("test_file")
+    query_info = InsertQueryBuilder(test_query, datetime.datetime.now().isoformat())
     assert None is InsertQuery.execute(connection, query_info)

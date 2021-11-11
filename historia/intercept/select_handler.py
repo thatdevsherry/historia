@@ -26,8 +26,7 @@ class SelectQueryHandler:
     def is_temporal_query(query):
 
         # will add more clauses as they're implemented
-        temporal_clause_pattern = re.compile(
-            r'(as of|to|between|contained in)')
+        temporal_clause_pattern = re.compile(r"(as of|to|between|contained in)")
 
         temporal_clause_matches = temporal_clause_pattern.finditer(query)
 

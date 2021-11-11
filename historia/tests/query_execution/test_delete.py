@@ -44,6 +44,5 @@ def teardown_module():
 def test_delete_query_execution():
     test_query = "delete from test where id=1"
     connection = sqlite3.connect("test_file")
-    query_info = DeleteQueryBuilder(test_query,
-                                    datetime.datetime.now().isoformat())
+    query_info = DeleteQueryBuilder(test_query, datetime.datetime.now().isoformat())
     assert None is DeleteQuery.execute(connection, query_info)

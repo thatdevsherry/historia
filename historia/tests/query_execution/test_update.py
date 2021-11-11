@@ -28,7 +28,7 @@ from historia.query_execution.update import UpdateQuery
 
 
 def setup_module():
-    connection = sqlite3.connect('test_file')
+    connection = sqlite3.connect("test_file")
     connection.execute("create table test (id int, name text)")
     connection.execute(
         "create table test_history (id int, name text, valid_from datetime, valid_to datetime)"
@@ -44,6 +44,7 @@ def teardown_module():
 def test_update_query_execution():
     test_query = "update test set name='something' where id=1"
     connection = sqlite3.connect("test_file")
-    query_info = UpdateQueryBuilder(test_query, connection,
-                                    datetime.datetime.now().isoformat())
+    query_info = UpdateQueryBuilder(
+        test_query, connection, datetime.datetime.now().isoformat()
+    )
     assert None is UpdateQuery.execute(connection, query_info)

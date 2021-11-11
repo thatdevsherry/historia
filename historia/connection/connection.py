@@ -17,8 +17,7 @@ class Connection:
         self.sqlite_connection = sqlite3.connect(self.database_file)
 
     def execute(self, args):
-        return QueryHandler.action_handler(self.sqlite_connection,
-                                           str.lower(args))
+        return QueryHandler.action_handler(self.sqlite_connection, str.lower(args))
 
     def commit(self):
         self.sqlite_connection.commit()
@@ -28,7 +27,8 @@ class Connection:
 
     def create_history_tables(self):
         query = self.sqlite_connection.execute(
-            "SELECT name FROM sqlite_master WHERE type='table'")
+            "SELECT name FROM sqlite_master WHERE type='table'"
+        )
         query_output = query.fetchall()
         table_names = []
         table_schemas = []
@@ -38,17 +38,19 @@ class Connection:
 
         for table in table_names:
             # leave out already created history tables
-            if table[-8:] == '_history':
+            if table[-8:] == "_history":
                 pass
             else:
                 table_name = [table + "_history"]
                 query = self.sqlite_connection.execute(
-                    "select sql from sqlite_master where name=?", table_name)
+                    "select sql from sqlite_master where name=?", table_name
+                )
                 query_output = query.fetchone()
                 # check if table has a history table
                 if query_output is None:
                     query = self.sqlite_connection.execute(
-                        "select sql from sqlite_master where name=?", [table])
+                        "select sql from sqlite_master where name=?", [table]
+                    )
                     table_schemas.append(str.lower(query.fetchone()[0]))
 
         for i in table_schemas:

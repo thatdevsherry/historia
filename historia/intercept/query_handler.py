@@ -31,14 +31,13 @@ from historia.intercept.select_handler import SelectQueryHandler
 from historia.query_execution.create import CreateQuery
 from historia.query_execution.delete import DeleteQuery
 from historia.query_execution.insert import InsertQuery
-from historia.query_execution.select import (NormalSelectQuery,
-                                                TemporalSelectQuery)
+from historia.query_execution.select import NormalSelectQuery, TemporalSelectQuery
 from historia.query_execution.update import UpdateQuery
 
 
 class QueryHandler:
     def action_handler(connection, query):
-        keyword_pattern = re.compile(r'(create|insert|update|delete|select)')
+        keyword_pattern = re.compile(r"(create|insert|update|delete|select)")
         keyword_matches = keyword_pattern.finditer(query)
 
         for match in keyword_matches:

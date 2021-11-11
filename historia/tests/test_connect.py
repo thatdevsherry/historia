@@ -29,5 +29,5 @@ def teardown_module():
 
 
 def test_connect():
-    test_connection = connect('test_file')
+    test_connection = connect("test_file")
     assert test_connection is not None

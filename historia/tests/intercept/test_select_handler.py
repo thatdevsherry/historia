@@ -29,7 +29,8 @@ def test_is_temporal_query_with_no_keywords_false():
 
 def test_is_temporal_query_with_as_of():
     is_temporal = SelectQueryHandler.is_temporal_query(
-        "select * from test as of '9999-12-31T00:00:00.000000'")
+        "select * from test as of '9999-12-31T00:00:00.000000'"
+    )
     assert True is is_temporal
 
 

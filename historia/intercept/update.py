@@ -23,15 +23,17 @@ import re
 
 
 class UpdateQueryBuilder:
-    def __init__(self,
-                 query,
-                 connection,
-                 local_time,
-                 temporal_query=None,
-                 temporal_query_insert=None,
-                 row_tuple=None,
-                 table_name=None,
-                 temporal_table_name=None):
+    def __init__(
+        self,
+        query,
+        connection,
+        local_time,
+        temporal_query=None,
+        temporal_query_insert=None,
+        row_tuple=None,
+        table_name=None,
+        temporal_table_name=None,
+    ):
         self.query = query
         self.temporal_query = temporal_query
         self.connection = connection
@@ -51,7 +53,7 @@ class UpdateQueryBuilder:
     def set_original_table_name(self):
         original_query = self.query
 
-        table_name_pattern = re.compile(r'(?<=update )[^ ]+')
+        table_name_pattern = re.compile(r"(?<=update )[^ ]+")
 
         table_name_matches = table_name_pattern.finditer(original_query)
 
@@ -74,12 +76,13 @@ class UpdateQueryBuilder:
         condition = UpdateQueryBuilder.get_where_condition(original_query)
 
         temporal_query = "update {} set valid_to='{}' where {} and valid_to='9999-12-31T00:00:00.000000'".format(
-            self.temporal_table_name, date_string, condition)
+            self.temporal_table_name, date_string, condition
+        )
 
         self.temporal_query = temporal_query
 
     def get_where_condition(original_query):
-        condition_pattern = re.compile(r'(?<=where )[^ ]+')
+        condition_pattern = re.compile(r"(?<=where )[^ ]+")
 
         condition_matches = condition_pattern.finditer(original_query)
 
@@ -95,23 +98,27 @@ class UpdateQueryBuilder:
         new_values_string = UpdateQueryBuilder.get_new_values(original_query)
 
         column_value_list = UpdateQueryBuilder.create_column_values_list(
-            new_values_string)
+            new_values_string
+        )
 
         column_value_dict = UpdateQueryBuilder.create_column_value_dictionary(
-            column_value_list)
+            column_value_list
+        )
 
         condition = UpdateQueryBuilder.get_where_condition(original_query)
 
         full_row = UpdateQueryBuilder.get_full_row(self, condition)
 
         new_row_tuple = UpdateQueryBuilder.create_new_query_values(
-            self, column_value_dict, full_row)
+            self, column_value_dict, full_row
+        )
 
         self.temporal_query_insert = UpdateQueryBuilder.build_query(
-            self, new_row_tuple, date_string)
+            self, new_row_tuple, date_string
+        )
 
     def get_new_values(original_query):
-        set_value_pattern = re.compile(r'(?<=set )[^ ]+')
+        set_value_pattern = re.compile(r"(?<=set )[^ ]+")
 
         set_value_match = set_value_pattern.finditer(original_query)
 
@@ -122,8 +129,9 @@ class UpdateQueryBuilder:
         return set_value_string
 
     def get_full_row(self, condition):
-        query = self.connection.execute("select * from {} where {}".format(
-            self.table_name, condition))
+        query = self.connection.execute(
+            "select * from {} where {}".format(self.table_name, condition)
+        )
         query_result = query.fetchone()
         self.row_tuple = query_result
         return query_result
@@ -137,17 +145,18 @@ class UpdateQueryBuilder:
             else:
                 stripped_query_list.append(value)
 
-        stripped_query_list.append('{}'.format(date_string))
-        stripped_query_list.append('9999-12-31T00:00:00.000000')
+        stripped_query_list.append("{}".format(date_string))
+        stripped_query_list.append("9999-12-31T00:00:00.000000")
         new_tuple = tuple(stripped_query_list)
 
         insert_query = "insert into {} values {}".format(
-            self.temporal_table_name, new_tuple)
+            self.temporal_table_name, new_tuple
+        )
 
         return insert_query
 
     def create_column_values_list(values_string):
-        column_value_pattern = re.compile(r'[^=,]+')
+        column_value_pattern = re.compile(r"[^=,]+")
         column_value_matches = column_value_pattern.finditer(values_string)
 
         values = []
@@ -173,21 +182,25 @@ class UpdateQueryBuilder:
         try:
             for element in column_value_list:
                 if column_value_list.index(element) == 0:
-                    column_value_dictionary[column_value_list[
-                        column_value_list.index(element)]] = column_value_list[
-                            column_value_list.index(element) + 1]
+                    column_value_dictionary[
+                        column_value_list[column_value_list.index(element)]
+                    ] = column_value_list[column_value_list.index(element) + 1]
                 elif column_value_list.index(element) < 2:
-                    column_value_dictionary[column_value_list[
-                        column_value_list.index(element) +
-                        1]] = column_value_list[
-                            column_value_list.index(element) + 2]
+                    column_value_dictionary[
+                        column_value_list[column_value_list.index(element) + 1]
+                    ] = column_value_list[column_value_list.index(element) + 2]
 
                 elif column_value_list.index(element) >= 2:
-                    column_value_dictionary[column_value_list[
-                        column_value_list.index(element) +
-                        column_value_list.index(element)]] = column_value_list[
-                            column_value_list.index(element) +
-                            column_value_list.index(element) + 1]
+                    column_value_dictionary[
+                        column_value_list[
+                            column_value_list.index(element)
+                            + column_value_list.index(element)
+                        ]
+                    ] = column_value_list[
+                        column_value_list.index(element)
+                        + column_value_list.index(element)
+                        + 1
+                    ]
 
         except IndexError:
             return column_value_dictionary
@@ -198,13 +211,13 @@ class UpdateQueryBuilder:
         for column in column_value_dictionary.keys():
             query_result = self.connection.execute(
                 "select {} from test where {}".format(
-                    column,
-                    UpdateQueryBuilder.get_where_condition(self.query)))
+                    column, UpdateQueryBuilder.get_where_condition(self.query)
+                )
+            )
 
             old_value = query_result.fetchone()[0]
             old_value_index = full_row_list.index(old_value)
             full_row_list.pop(old_value_index)
-            full_row_list.insert(old_value_index,
-                                 column_value_dictionary[column])
+            full_row_list.insert(old_value_index, column_value_dictionary[column])
 
         return tuple(full_row_list)

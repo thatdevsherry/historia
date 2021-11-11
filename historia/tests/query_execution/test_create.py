@@ -32,6 +32,6 @@ def teardown_module():
 
 def test_execute():
     query = "create table test (id int, name text)"
-    connection = sqlite3.connect('test_file')
+    connection = sqlite3.connect("test_file")
     query_info = CreateQueryBuilder(query)
     assert None is CreateQuery.execute(connection, query_info)
