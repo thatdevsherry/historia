@@ -38,7 +38,7 @@ setup(
     """,
     url='https://www.github.com/ShehriyarQureshi/historia.git',
     author='Shehriyar Qureshi',
-    author_email='SShehriyar266@gmail.com',
+    author_email='thatdevsherry@gmail.com',
     license='MIT',
     packages=[
         'historia', 'historia.connection', 'historia.intercept',
