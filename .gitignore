@@ -4,3 +4,4 @@ MANIFEST
 env
 __pycache__
 historia.egg-info
+.pytest_cache
