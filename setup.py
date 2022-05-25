@@ -24,7 +24,7 @@ from distutils.core import setup
 setup(
     name="historia",
     version="19.2.1",
-    download_url="https://github.com/ShehriyarQureshi/historia/archive/19.2.1.tar.gz",
+    download_url="https://github.com/thatdevsherry/historia/archive/19.2.1.tar.gz",
     keywords=[
         "temporal",
         "database",
@@ -39,7 +39,7 @@ setup(
     It allows querying the history table to get information about the state
     of table in the past.
     """,
-    url="https://www.github.com/ShehriyarQureshi/historia.git",
+    url="https://www.github.com/thatdevsherry/historia.git",
     author="Shehriyar Qureshi",
     author_email="thatdevsherry@gmail.com",
     license="MIT",
