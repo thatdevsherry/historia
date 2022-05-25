@@ -23,8 +23,8 @@ from distutils.core import setup
 
 setup(
     name="historia",
-    version="19.2.1",
-    download_url="https://github.com/thatdevsherry/historia/archive/19.2.1.tar.gz",
+    version="22.05.25",
+    download_url="https://github.com/thatdevsherry/historia/archive/25.05.25.tar.gz",
     keywords=[
         "temporal",
         "database",
